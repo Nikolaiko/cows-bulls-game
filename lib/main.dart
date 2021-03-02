@@ -1,0 +1,27 @@
+import 'package:cows_bulls_game/consts/app_consts.dart';
+import 'package:cows_bulls_game/main_screen/main_screen_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
+
+void main() {
+  mainContext.config = ReactiveConfig.main.clone(
+    writePolicy: ReactiveWritePolicy.always,
+  );
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: AppConsts.APP_NAME,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: MainScreenWidget(),
+    );
+  }
+}
