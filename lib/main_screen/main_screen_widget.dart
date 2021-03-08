@@ -1,4 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
+import 'package:cows_bulls_game/single_player_game/single_game_initializer.dart';
 import 'package:cows_bulls_game/single_player_game/single_player_screen_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class MainScreenWidget extends StatelessWidget {
       context, 
       MaterialPageRoute(
         builder: (routeContext) {
-          return SinglePlayerScreenWidget();
+          return SingleGameInitializer();
         }
       )
     );

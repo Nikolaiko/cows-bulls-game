@@ -13,11 +13,22 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
       ActionController(name: 'SinglePlayerGameStore');
 
   @override
-  void makeTurn(List<int> turnValues) {
+  void makeTurn() {
     final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
         name: 'SinglePlayerGameStore.makeTurn');
     try {
-      return super.makeTurn(turnValues);
+      return super.makeTurn();
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNumberForCurrentPlace(int number) {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.setNumberForCurrentPlace');
+    try {
+      return super.setNumberForCurrentPlace(number);
     } finally {
       _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
     }

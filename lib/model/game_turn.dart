@@ -1,12 +1,11 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class GameTurn {
+  final List<int> turnValues;
+  final int cows;
+  final int bulls;
 
-part 'game_turn.freezed.dart';
-
-@freezed
-abstract class GameTurn with _$GameTurn {
-  const factory GameTurn(
-    List<int> turnValues,
-    int cows,
-    int bulls
-  ) = _GameTurn;
+  const GameTurn(
+    this.turnValues,
+    this.cows,
+    this.bulls
+  );
 }

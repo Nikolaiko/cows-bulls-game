@@ -18,15 +18,28 @@ abstract class SinglePlayerGameStore with Store {
   SinglePlayerGameStore(this._randomGenerator) {
     _computerSecret = _randomGenerator.generateSequnce();
   }
-
+  
   List<int> _computerSecret = [];
+
+  Observable<int> currentUserInputIndex = Observable(0);
+  ObservableList<String> currentUserInput = ObservableList.of([" ", " ", " ", " "]);
   ObservableList<GameTurn>  turnHistory = ObservableList();
   
-
   @action
-  void makeTurn(List<int> turnValues) {
+  void makeTurn() {
     
   }
 
+  @action
+  void setNumberForCurrentPlace(int number) {
+    currentUserInput[currentUserInputIndex.value] = number.toString();
+    currentUserInputIndex.value++;
+    if (currentUserInputIndex.value >= currentUserInput.length) {
+      currentUserInputIndex.value = 0;
+    }    
+  }
 
+  void dispose() {
+    
+  }
 }

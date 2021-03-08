@@ -1,7 +1,7 @@
-import 'package:cows_bulls_game/single_player_game/keyboard_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 
-class MainGameUIWidget extends StatelessWidget {
+class GameUIWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(

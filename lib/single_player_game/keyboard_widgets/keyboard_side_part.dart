@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
-import 'package:cows_bulls_game/single_player_game/keyboard_side_button_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/keyboard_side_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class KeyboardSideWidget extends StatelessWidget {
