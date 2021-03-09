@@ -1,9 +1,6 @@
-import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/current_try_numbers_widget.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/input_numbers_row_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 
 class KeyboardMainPart extends StatelessWidget {
   @override
