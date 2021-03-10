@@ -24,6 +24,17 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
   }
 
   @override
+  void backspace() {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.backspace');
+    try {
+      return super.backspace();
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setNumberForCurrentPlace(int number) {
     final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
         name: 'SinglePlayerGameStore.setNumberForCurrentPlace');

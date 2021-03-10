@@ -1,4 +1,6 @@
+import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
+import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/services/abstract/random_generator.dart';
 import 'package:cows_bulls_game/services/abstract/turn_analyzer.dart';
 import 'package:mobx/mobx.dart';
@@ -25,6 +27,14 @@ abstract class SinglePlayerGameStore with Store {
   List<int> _computerSecret = [];
 
   Observable<int> currentUserInputIndex = Observable(0);
+  Observable<UserInputModeEnum> inputMode = Observable(UserInputModeEnum.usualInput);
+
+  ObservableList<DigitButtonTypeEnum> digitButtonsState = ObservableList.of(
+    [DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+    DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+    DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+    DigitButtonTypeEnum.usual]
+  );
   ObservableList<String> currentUserInput = ObservableList.of([" ", " ", " ", " "]);
   ObservableList<GameTurn>  turnHistory = ObservableList();
   
@@ -44,10 +54,15 @@ abstract class SinglePlayerGameStore with Store {
     if (currentUserInputIndex.value < 0) {
       currentUserInputIndex.value = currentUserInput.length - 1;
     }
+    currentUserInput[currentUserInputIndex.value] = " ";
   }
 
   @action
   void setNumberForCurrentPlace(int number) {
+    int index = currentUserInput.indexOf(number.toString());
+    if (index != -1) {
+      currentUserInput[index] = " ";
+    }
     currentUserInput[currentUserInputIndex.value] = number.toString();
     currentUserInputIndex.value++;
     if (currentUserInputIndex.value >= currentUserInput.length) {

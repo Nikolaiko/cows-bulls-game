@@ -1,0 +1,4 @@
+enum UserInputModeEnum {
+  usualInput,
+  markDigitsInput
+}
