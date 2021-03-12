@@ -36,8 +36,13 @@ abstract class SinglePlayerGameStore with Store {
     DigitButtonTypeEnum.usual]
   );
   ObservableList<String> currentUserInput = ObservableList.of([" ", " ", " ", " "]);
-  ObservableList<GameTurn>  turnHistory = ObservableList();
+  ObservableList<GameTurn> turnHistory = ObservableList();
+  ObservableList<int> markedDigits = ObservableList();
   
+  bool isDigitMarked(int digit) {
+    return markedDigits.contains(digit);
+  }
+
   @action
   void makeTurn() {
     var intValues = currentUserInput.map(
@@ -46,6 +51,22 @@ abstract class SinglePlayerGameStore with Store {
     
     turnHistory.add(_turnAnalyzer.analyzeTurn(intValues, _computerSecret));
     currentUserInput.setAll(0, [" ", " ", " ", " "]);
+  }
+
+  @action
+  void toggleDigitMark(int digit) {
+    if (markedDigits.contains(digit)) {
+      markedDigits.remove(digit);
+    } else {
+      markedDigits.add(digit);
+    }
+  }
+
+  @action
+  void switchInputMode() {
+    inputMode.value = (inputMode.value == UserInputModeEnum.usualInput)
+      ? UserInputModeEnum.markDigitsInput
+      : UserInputModeEnum.usualInput;
   }
 
   @action

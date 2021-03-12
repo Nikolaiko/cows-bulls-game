@@ -24,6 +24,28 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
   }
 
   @override
+  void toggleDigitMark(int digit) {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.toggleDigitMark');
+    try {
+      return super.toggleDigitMark(digit);
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void switchInputMode() {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.switchInputMode');
+    try {
+      return super.switchInputMode();
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void backspace() {
     final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
         name: 'SinglePlayerGameStore.backspace');
