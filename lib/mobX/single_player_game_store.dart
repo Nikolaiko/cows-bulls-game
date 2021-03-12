@@ -39,10 +39,6 @@ abstract class SinglePlayerGameStore with Store {
   ObservableList<GameTurn> turnHistory = ObservableList();
   ObservableList<int> markedDigits = ObservableList();
   
-  bool isDigitMarked(int digit) {
-    return markedDigits.contains(digit);
-  }
-
   @action
   void makeTurn() {
     var intValues = currentUserInput.map(
@@ -79,6 +75,14 @@ abstract class SinglePlayerGameStore with Store {
   }
 
   @action
+  void digitButtonTap(int digit) {
+    if (inputMode.value == UserInputModeEnum.markDigitsInput) {
+      toggleDigitMark(digit);
+    } else {
+      setNumberForCurrentPlace(digit);
+    }
+  }
+
   void setNumberForCurrentPlace(int number) {
     int index = currentUserInput.indexOf(number.toString());
     if (index != -1) {
@@ -91,6 +95,10 @@ abstract class SinglePlayerGameStore with Store {
     }    
   }
 
+  bool isDigitMarked(int digit) {
+    return markedDigits.contains(digit);
+  }
+  
   void dispose() {
     
   }

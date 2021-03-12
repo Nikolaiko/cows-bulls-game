@@ -57,11 +57,11 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
   }
 
   @override
-  void setNumberForCurrentPlace(int number) {
+  void digitButtonTap(int digit) {
     final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
-        name: 'SinglePlayerGameStore.setNumberForCurrentPlace');
+        name: 'SinglePlayerGameStore.digitButtonTap');
     try {
-      return super.setNumberForCurrentPlace(number);
+      return super.digitButtonTap(digit);
     } finally {
       _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
     }
