@@ -24,17 +24,6 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
   }
 
   @override
-  void toggleDigitMark(int digit) {
-    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
-        name: 'SinglePlayerGameStore.toggleDigitMark');
-    try {
-      return super.toggleDigitMark(digit);
-    } finally {
-      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void switchInputMode() {
     final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
         name: 'SinglePlayerGameStore.switchInputMode');
@@ -51,6 +40,17 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
         name: 'SinglePlayerGameStore.backspace');
     try {
       return super.backspace();
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toggleLockState(int position) {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.toggleLockState');
+    try {
+      return super.toggleLockState(position);
     } finally {
       _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
     }

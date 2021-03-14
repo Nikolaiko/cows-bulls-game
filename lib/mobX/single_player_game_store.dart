@@ -1,5 +1,6 @@
 import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
+import 'package:cows_bulls_game/model/user_input_cell_data.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/services/abstract/random_generator.dart';
 import 'package:cows_bulls_game/services/abstract/turn_analyzer.dart';
@@ -35,27 +36,32 @@ abstract class SinglePlayerGameStore with Store {
     DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
     DigitButtonTypeEnum.usual]
   );
-  ObservableList<String> currentUserInput = ObservableList.of([" ", " ", " ", " "]);
+  ObservableList<UserInputCellData> currentUserInput = ObservableList.of(
+    [
+      UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual)
+    ]
+  );
   ObservableList<GameTurn> turnHistory = ObservableList();
   ObservableList<int> markedDigits = ObservableList();
   
   @action
   void makeTurn() {
     var intValues = currentUserInput.map(
-      (element) => int.parse(element)
+      (element) => int.parse(element.value)
     ).toList();
     
     turnHistory.add(_turnAnalyzer.analyzeTurn(intValues, _computerSecret));
-    currentUserInput.setAll(0, [" ", " ", " ", " "]);
-  }
-
-  @action
-  void toggleDigitMark(int digit) {
-    if (markedDigits.contains(digit)) {
-      markedDigits.remove(digit);
-    } else {
-      markedDigits.add(digit);
-    }
+    currentUserInput.setAll(0, 
+      [
+        UserInputCellData(" ", DigitButtonTypeEnum.usual),
+        UserInputCellData(" ", DigitButtonTypeEnum.usual),
+        UserInputCellData(" ", DigitButtonTypeEnum.usual),
+        UserInputCellData(" ", DigitButtonTypeEnum.usual)
+      ]
+    );
   }
 
   @action
@@ -67,38 +73,95 @@ abstract class SinglePlayerGameStore with Store {
 
   @action
   void backspace() {
-    currentUserInputIndex.value--;
-    if (currentUserInputIndex.value < 0) {
-      currentUserInputIndex.value = currentUserInput.length - 1;
-    }
-    currentUserInput[currentUserInputIndex.value] = " ";
+    int prevFreeIndex = _getPrevNotLockedCell(currentUserInputIndex.value);
+    print(prevFreeIndex);
+    if (prevFreeIndex != -1) {
+      currentUserInputIndex.value = prevFreeIndex;
+      currentUserInput[currentUserInputIndex.value] = 
+        currentUserInput[currentUserInputIndex.value].copyWithValue(" ");
+    }    
   }
 
   @action
-  void digitButtonTap(int digit) {
+  void toggleLockState(int position) {
+    var newType = (currentUserInput[position].type == DigitButtonTypeEnum.usual)
+      ? DigitButtonTypeEnum.locked
+      : DigitButtonTypeEnum.usual;
+
+    currentUserInput[position] = currentUserInput[position].copyWithType(newType);         
+  }
+
+  @action
+  void digitButtonTap(int digit) {    
     if (inputMode.value == UserInputModeEnum.markDigitsInput) {
-      toggleDigitMark(digit);
+      _toggleDigitMark(digit);
     } else {
-      setNumberForCurrentPlace(digit);
+      _setNumberForCurrentPlace(digit);
     }
   }
 
-  void setNumberForCurrentPlace(int number) {
-    int index = currentUserInput.indexOf(number.toString());
-    if (index != -1) {
-      currentUserInput[index] = " ";
+  void _setNumberForCurrentPlace(int number) {
+    var element = currentUserInput.firstWhere(
+      (element) => element.value == number.toString(),
+      orElse: () => null
+    );
+    
+    if (element != null) {
+      int index = currentUserInput.indexOf(element);
+      currentUserInput[index] = currentUserInput[index].copyWithValue(" ");
     }
-    currentUserInput[currentUserInputIndex.value] = number.toString();
+    currentUserInput[currentUserInputIndex.value] = 
+        currentUserInput[currentUserInputIndex.value].copyWithValue(number.toString());
     currentUserInputIndex.value++;
     if (currentUserInputIndex.value >= currentUserInput.length) {
       currentUserInputIndex.value = 0;
     }    
   }
 
+  void _toggleDigitMark(int digit) {
+    if (markedDigits.contains(digit)) {
+      markedDigits.remove(digit);
+    } else {
+      markedDigits.add(digit);
+    }
+  }
+
+  int _getPrevNotLockedCell(int startIndex) {
+    int index = -1;
+
+    if (startIndex > 0) {
+      for (int i = startIndex - 1; i >= 0; i--) {
+        if (currentUserInput[i].type == DigitButtonTypeEnum.usual) {
+          index = i;
+          break;
+        }
+      }
+    }
+
+    if (index == -1 && startIndex < currentUserInput.length - 1) {
+      for (int i = currentUserInput.length - 1; i > startIndex; i--) {
+        if (currentUserInput[i].type == DigitButtonTypeEnum.usual) {
+          index = i;
+          break;
+        }
+      }
+    }
+
+    return index;
+  }
+
   bool isDigitMarked(int digit) {
     return markedDigits.contains(digit);
   }
-  
+
+  bool isInputValid() {
+    var element = currentUserInput.firstWhere(
+      (element) => element.value == " ",
+      orElse: () => null
+    );
+    return element == null;
+  }
+
   void dispose() {
     
   }

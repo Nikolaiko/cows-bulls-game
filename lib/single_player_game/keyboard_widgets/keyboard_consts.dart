@@ -33,7 +33,15 @@ class KeyboardConsts {
 
 
   static const double BUTTON_TEXT_SIZE = 25.0;
+  static const Color MARKED_DIGIT_COLOR = Colors.red;
+  static const Color DIGIT_COLOR = Colors.black;
   static const TextStyle BUTTON_TEXT_STYLE = TextStyle(
+    color: DIGIT_COLOR,
+    fontSize: BUTTON_TEXT_SIZE
+  );
+
+  static const TextStyle MARKED_BUTTON_TEXT_STYLE = TextStyle(
+    color: MARKED_DIGIT_COLOR,
     fontSize: BUTTON_TEXT_SIZE
   );
   

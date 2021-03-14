@@ -21,7 +21,9 @@ class KeyboardSideWidget extends StatelessWidget {
         Flexible(
           flex: 1,
           child: GestureDetector(
-            onTap: () => store.makeTurn(),
+            onTap: store.isInputValid() 
+              ? () => store.makeTurn()
+              : null,
             child: Padding(
               padding: EdgeInsets.all(dimens.width * 0.01),
               child: KeyboardSideButtonWidget(

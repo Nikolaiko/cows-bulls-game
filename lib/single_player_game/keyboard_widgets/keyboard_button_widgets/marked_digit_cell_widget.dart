@@ -1,12 +1,11 @@
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_consts.dart';
 import 'package:flutter/material.dart';
 
-
-class DigitCellWidget extends StatelessWidget {
+class MarkedDigitCellWidget extends StatelessWidget {
   final String _buttonText;
   final bool selected;
 
-  DigitCellWidget(this._buttonText, { this.selected = false });
+  MarkedDigitCellWidget(this._buttonText, { this.selected = false });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class DigitCellWidget extends StatelessWidget {
           fit: BoxFit.scaleDown,
           child: Text(
             _buttonText, 
-            style: KeyboardConsts.BUTTON_TEXT_STYLE
+            style: KeyboardConsts.MARKED_BUTTON_TEXT_STYLE
           )
         ),
       ),

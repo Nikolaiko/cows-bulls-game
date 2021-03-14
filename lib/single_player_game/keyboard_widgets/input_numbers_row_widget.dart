@@ -1,5 +1,7 @@
 import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
+import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/digit_cell_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/marked_digit_cell_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -28,15 +30,16 @@ class InputNumbersRowWidget extends StatelessWidget {
         Observer(builder: (contextObserver) {
           int digit = int.parse(rowLabels[i]);
           bool marked = store.isDigitMarked(digit);
+          UserInputModeEnum inputMode = store.inputMode.value;
           return Expanded(
             child: GestureDetector(
-              onTap: marked == true 
+              onTap: (inputMode == UserInputModeEnum.usualInput && marked) 
                 ? null
                 : () => store.digitButtonTap(digit),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: marked == true 
-                  ? DigitCellWidget(rowLabels[i])
+                  ? MarkedDigitCellWidget(rowLabels[i])
                   : DigitCellWidget(rowLabels[i])
               )
             )
