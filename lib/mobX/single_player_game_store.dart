@@ -48,7 +48,7 @@ abstract class SinglePlayerGameStore with Store {
   ObservableList<int> markedDigits = ObservableList();
   
   @action
-  void makeTurn() {
+  void makeTurn() {    
     var intValues = currentUserInput.map(
       (element) => int.parse(element.value)
     ).toList();
@@ -62,6 +62,7 @@ abstract class SinglePlayerGameStore with Store {
         UserInputCellData(" ", DigitButtonTypeEnum.usual)
       ]
     );
+    currentUserInputIndex.value = 0;
   }
 
   @action
@@ -112,10 +113,7 @@ abstract class SinglePlayerGameStore with Store {
     }
     currentUserInput[currentUserInputIndex.value] = 
         currentUserInput[currentUserInputIndex.value].copyWithValue(number.toString());
-    currentUserInputIndex.value++;
-    if (currentUserInputIndex.value >= currentUserInput.length) {
-      currentUserInputIndex.value = 0;
-    }    
+    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);        
   }
 
   void _toggleDigitMark(int digit) {
@@ -150,6 +148,38 @@ abstract class SinglePlayerGameStore with Store {
     return index;
   }
 
+  int _getNextNotLockedCell(int startIndex) {
+    int index = -1;
+
+    if (startIndex < currentUserInput.length - 1) {
+      for (int i = startIndex + 1; i < currentUserInput.length; i++) {
+        if (currentUserInput[i].type == DigitButtonTypeEnum.usual) {
+          index = i;
+          break;
+        }
+      }
+    }
+
+    if (index == -1 && startIndex > 0) {
+      for (int i = 0; i < startIndex; i++) {
+        if (currentUserInput[i].type == DigitButtonTypeEnum.usual) {
+          index = i;
+          break;
+        }
+      }
+    }
+
+    return index;
+  }
+
+  bool isDigitLocked(int digit) {
+    var element = currentUserInput.firstWhere(
+      (element) => element.value == digit.toString() && element.type == DigitButtonTypeEnum.locked,
+      orElse: () => null
+    );    
+    return element != null;
+  }
+
   bool isDigitMarked(int digit) {
     return markedDigits.contains(digit);
   }
@@ -158,7 +188,7 @@ abstract class SinglePlayerGameStore with Store {
     var element = currentUserInput.firstWhere(
       (element) => element.value == " ",
       orElse: () => null
-    );
+    );    
     return element == null;
   }
 
