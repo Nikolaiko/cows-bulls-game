@@ -36,6 +36,7 @@ abstract class SinglePlayerGameStore with Store {
     DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
     DigitButtonTypeEnum.usual]
   );
+
   ObservableList<UserInputCellData> currentUserInput = ObservableList.of(
     [
       UserInputCellData(" ", DigitButtonTypeEnum.usual),
@@ -54,15 +55,22 @@ abstract class SinglePlayerGameStore with Store {
     ).toList();
     
     turnHistory.add(_turnAnalyzer.analyzeTurn(intValues, _computerSecret));
-    currentUserInput.setAll(0, 
-      [
-        UserInputCellData(" ", DigitButtonTypeEnum.usual),
-        UserInputCellData(" ", DigitButtonTypeEnum.usual),
-        UserInputCellData(" ", DigitButtonTypeEnum.usual),
-        UserInputCellData(" ", DigitButtonTypeEnum.usual)
-      ]
-    );
+
+    List<UserInputCellData> newData = currentUserInput.map((element) {
+      if (element.type != DigitButtonTypeEnum.locked) {
+        return UserInputCellData(" ", DigitButtonTypeEnum.usual);
+      } else {
+        return element;
+      }      
+    }).toList();
+
+    currentUserInput.setAll(0, newData);
     currentUserInputIndex.value = 0;
+  }
+
+  @action
+  void selectDigitCell(int position) {
+    currentUserInputIndex.value = position;
   }
 
   @action

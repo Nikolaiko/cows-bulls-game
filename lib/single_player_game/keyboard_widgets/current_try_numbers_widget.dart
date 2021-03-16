@@ -36,9 +36,14 @@ class CurrentTryNumbersWidget extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: DigitCellWidget(
-                    currentTryValues[i].value, 
-                    selected: selectedIndex == i
+                  child: GestureDetector(
+                    onTap: (currentTryValues[i].type == DigitButtonTypeEnum.usual)
+                      ? () => store.selectDigitCell(i)
+                      : null,
+                    child: DigitCellWidget(
+                      currentTryValues[i].value, 
+                      selected: selectedIndex == i
+                    ),
                   ),
                 ),
                 Opacity(
