@@ -1,5 +1,6 @@
 import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
+import 'package:cows_bulls_game/single_player_game/consts/single_game_styles.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -36,7 +37,10 @@ class GameUIWidget extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: KeyboardWidget(),            
+            child: Container(              
+              child: KeyboardWidget(),              
+              decoration: keyboardDecoration
+            )            
           )
         ],
       ),

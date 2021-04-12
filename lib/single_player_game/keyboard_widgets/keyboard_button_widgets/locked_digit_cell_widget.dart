@@ -1,4 +1,5 @@
-import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_consts.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_consts.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_decoration_consts.dart';
 import 'package:flutter/material.dart';
 
 class LockedDigitCellWidget extends StatelessWidget {
@@ -11,14 +12,14 @@ class LockedDigitCellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: selected 
-        ? KeyboardConsts.selectedButtonDecoration
-        : KeyboardConsts.unselectedButtonDecoration,
+        ? selectedButtonDecoration
+        : unselectedButtonDecoration,
       child: SizedBox.expand(
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
             _buttonText, 
-            style: KeyboardConsts.LOCKED_BUTTON_TEXT_STYLE
+            style: LOCKED_BUTTON_TEXT_STYLE
           )
         ),
       )

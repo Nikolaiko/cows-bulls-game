@@ -7,19 +7,31 @@ class KeyboardWidget extends StatefulWidget {
   _KeyboardWidgetState createState() => _KeyboardWidgetState();
 }
 
-class _KeyboardWidgetState extends State<KeyboardWidget> {
+class _KeyboardWidgetState extends State<KeyboardWidget> {  
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Row(
       children: [
-        Flexible(
-          flex: 6, 
-          child: KeyboardMainPart()
-        ),
-        Flexible(
-          flex: 2, 
-          child: KeyboardSideWidget()
-        )
+        Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 6, 
+                      child: KeyboardMainPart()
+                    ),
+                    Flexible(
+                      flex: 2, 
+                      child: KeyboardSideWidget()
+                    )
+                  ]
+                ),
+              )              
+            ]
+          )
+        )        
       ]
     );
   }

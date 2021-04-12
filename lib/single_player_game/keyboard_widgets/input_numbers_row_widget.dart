@@ -1,5 +1,6 @@
 import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
 import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
+import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/digit_cell_widget.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/locked_digit_cell_widget.dart';
@@ -17,15 +18,15 @@ class InputNumbersRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var store = Provider.of<SinglePlayerGameStore>(context, listen: false);
-    return Container(
-      color: Colors.yellow,
+    var dimensions = ScreenDimensions(context);
+    return Container(      
       child: Row(
-        children: _buildRowElements(store)
+        children: _buildRowElements(store, dimensions)
       )
     );
   }
 
-  List<Widget> _buildRowElements(SinglePlayerGameStore store) {    
+  List<Widget> _buildRowElements(SinglePlayerGameStore store, ScreenDimensions dimensions) {    
     List<Widget> widgets = [];
     for (int i = 0; i < rowLabels.length; i++) {
       widgets.add(
@@ -34,15 +35,13 @@ class InputNumbersRowWidget extends StatelessWidget {
           bool marked = store.isDigitMarked(digit);
           bool locked = store.isDigitLocked(digit);
           UserInputModeEnum inputMode = store.inputMode.value;
-          return Expanded(
-            child: GestureDetector(
-              onTap: (inputMode == UserInputModeEnum.usualInput && (marked || locked)) 
-                ? null
-                : () => store.digitButtonTap(digit),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _buildCellWidget(marked, locked, rowLabels[i])                  
-              )
+          return GestureDetector(
+            onTap: (inputMode == UserInputModeEnum.usualInput && (marked || locked)) 
+              ? null
+              : () => store.digitButtonTap(digit),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildCellWidget(marked, locked, rowLabels[i], dimensions)                  
             )
           );
         })        
@@ -51,13 +50,13 @@ class InputNumbersRowWidget extends StatelessWidget {
     return widgets;
   }
 
-  Widget _buildCellWidget(bool marked, bool locked, String label) {
+  Widget _buildCellWidget(bool marked, bool locked, String label, ScreenDimensions dimensions) {
     if (marked) {
       return MarkedDigitCellWidget(label);
     } else if (locked) {
       return LockedDigitCellWidget(label);
     } else {
-      return DigitCellWidget(label);
+      return DigitCellWidget(label, dimensions);
     }
   }
 }

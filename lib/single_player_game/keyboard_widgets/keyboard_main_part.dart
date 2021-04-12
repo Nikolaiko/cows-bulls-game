@@ -7,10 +7,8 @@ class KeyboardMainPart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          flex: 1,
-          child: CurrentTryNumbersWidget()
-        ),
+        
+        CurrentTryNumbersWidget(),
         Expanded(
           flex: 1,
           child: InputNumbersRowWidget(

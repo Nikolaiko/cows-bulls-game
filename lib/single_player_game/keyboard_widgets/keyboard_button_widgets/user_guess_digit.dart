@@ -2,24 +2,31 @@ import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keybo
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_decoration_consts.dart';
 import 'package:flutter/material.dart';
 
-class MarkedDigitCellWidget extends StatelessWidget {
+class UserGuessDigit extends StatelessWidget {
   final String _buttonText;
-  final bool selected;
+  final double _side;
+  final bool _active;
 
-  MarkedDigitCellWidget(this._buttonText, { this.selected = false });
+  UserGuessDigit(
+    this._buttonText, 
+    this._active,
+    dimensions
+  ) : _side = dimensions.withoutSafeAreaHeight * 0.05;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: selected 
+      decoration: _active
         ? selectedButtonDecoration
         : unselectedButtonDecoration,
-      child: SizedBox.expand(
+      child: SizedBox(
+        height: _side,
+        width: _side,
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
             _buttonText, 
-            style: MARKED_BUTTON_TEXT_STYLE
+            style: BUTTON_TEXT_STYLE
           )
         ),
       ),

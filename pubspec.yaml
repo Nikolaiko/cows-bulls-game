@@ -35,5 +35,5 @@ flutter:
   fonts:
     - family: Igra Sans
       fonts:        
-        - asset: fonts/IgraSans.ttf
+        - asset: assets/fonts/IgraSans.ttf
           weight: 400
