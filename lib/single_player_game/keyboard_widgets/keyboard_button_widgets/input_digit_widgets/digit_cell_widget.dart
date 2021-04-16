@@ -2,27 +2,31 @@ import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keybo
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_decoration_consts.dart';
 import 'package:flutter/material.dart';
 
-class LockedDigitCellWidget extends StatelessWidget {
-  final String _buttonText;
-  final bool selected;
 
-  LockedDigitCellWidget(this._buttonText, { this.selected = false });
+class DigitCellWidget extends StatelessWidget {
+  final String _buttonText;
+  final double _side;  
+
+  DigitCellWidget(
+    this._buttonText,     
+    dimensions
+  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: selected 
-        ? selectedButtonDecoration
-        : unselectedButtonDecoration,
-      child: SizedBox.expand(
+      decoration: usualNumberDecoration,
+      child: SizedBox(
+        height: _side,
+        width: _side,
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
             _buttonText, 
-            style: LOCKED_BUTTON_TEXT_STYLE
+            style: BUTTON_TEXT_STYLE
           )
         ),
-      )
+      ),
     );
   }
 }

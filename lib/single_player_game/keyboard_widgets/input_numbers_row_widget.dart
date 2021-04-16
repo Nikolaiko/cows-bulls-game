@@ -2,9 +2,10 @@ import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
 import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
-import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/digit_cell_widget.dart';
-import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/locked_digit_cell_widget.dart';
-import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/marked_digit_cell_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_consts.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/input_digit_widgets/digit_cell_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/input_digit_widgets/locked_digit_cell_widget.dart';
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/input_digit_widgets/marked_digit_cell_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -13,16 +14,15 @@ class InputNumbersRowWidget extends StatelessWidget {
 
   final List<String> rowLabels;
 
-  InputNumbersRowWidget({ @required this.rowLabels });
+  const InputNumbersRowWidget({ @required this.rowLabels });
 
   @override
   Widget build(BuildContext context) {
     var store = Provider.of<SinglePlayerGameStore>(context, listen: false);
     var dimensions = ScreenDimensions(context);
-    return Container(      
-      child: Row(
-        children: _buildRowElements(store, dimensions)
-      )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _buildRowElements(store, dimensions)
     );
   }
 
@@ -40,7 +40,9 @@ class InputNumbersRowWidget extends StatelessWidget {
               ? null
               : () => store.digitButtonTap(digit),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: (i == rowLabels.length - 1) 
+                ? EdgeInsets.zero
+                : EdgeInsets.only(right: dimensions.width * currentTryDigitCellCoff),
               child: _buildCellWidget(marked, locked, rowLabels[i], dimensions)                  
             )
           );
@@ -52,9 +54,9 @@ class InputNumbersRowWidget extends StatelessWidget {
 
   Widget _buildCellWidget(bool marked, bool locked, String label, ScreenDimensions dimensions) {
     if (marked) {
-      return MarkedDigitCellWidget(label);
+      return MarkedDigitCellWidget(label, dimensions);
     } else if (locked) {
-      return LockedDigitCellWidget(label);
+      return LockedDigitCellWidget(label, dimensions);
     } else {
       return DigitCellWidget(label, dimensions);
     }

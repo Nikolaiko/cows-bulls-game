@@ -65,7 +65,7 @@ abstract class SinglePlayerGameStore with Store {
     }).toList();
 
     currentUserInput.setAll(0, newData);
-    currentUserInputIndex.value = 0;
+    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);    
   }
 
   @action
@@ -97,7 +97,11 @@ abstract class SinglePlayerGameStore with Store {
       ? DigitButtonTypeEnum.locked
       : DigitButtonTypeEnum.usual;
 
-    currentUserInput[position] = currentUserInput[position].copyWithType(newType);         
+    currentUserInput[position] = currentUserInput[position].copyWithType(newType); 
+    if (newType == DigitButtonTypeEnum.locked && 
+        position == currentUserInputIndex.value) {
+      currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);
+    }    
   }
 
   @action

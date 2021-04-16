@@ -1,0 +1,1 @@
+const lock_digit_image = "assets/images/lock.svg";

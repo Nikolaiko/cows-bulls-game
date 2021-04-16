@@ -1,3 +1,4 @@
+import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_colors.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_consts.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,11 @@ const BoxDecoration enterButtonDecoration = const BoxDecoration(
   borderRadius: BorderRadius.all(
     const Radius.circular(BORDER_CORNER_RADIUS)
   )
+);
+
+BoxDecoration usualNumberDecoration = BoxDecoration(
+  color: usualNumberBackground,    
+  borderRadius: BORDER_RADIUS
 );
 
 BoxDecoration unselectedButtonDecoration = BoxDecoration(

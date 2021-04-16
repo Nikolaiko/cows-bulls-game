@@ -2,29 +2,27 @@ import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keybo
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_decoration_consts.dart';
 import 'package:flutter/material.dart';
 
-
-class DigitCellWidget extends StatelessWidget {
+class TextSideButtonWidget extends StatelessWidget {
   final String _buttonText;
   final double _side;  
 
-  DigitCellWidget(
+  TextSideButtonWidget(
     this._buttonText,     
     dimensions
-  ) : _side = dimensions.withoutSafeAreaHeight * 0.05;
+  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: unselectedButtonDecoration,
-      child: SizedBox(
-        height: _side,
-        width: _side,
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
+      decoration: enterButtonDecoration,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: SizedBox(
+          height: _side,        
           child: Text(
             _buttonText, 
-            style: BUTTON_TEXT_STYLE
-          )
+            style: ENTER_BUTTON_TEXT_STYLE
+          ),
         ),
       ),
     );

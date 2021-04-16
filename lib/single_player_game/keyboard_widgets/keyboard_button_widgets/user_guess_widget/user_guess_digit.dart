@@ -11,7 +11,7 @@ class UserGuessDigit extends StatelessWidget {
     this._buttonText, 
     this._active,
     dimensions
-  ) : _side = dimensions.withoutSafeAreaHeight * 0.05;
+  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
 
   @override
   Widget build(BuildContext context) {
