@@ -24,7 +24,7 @@ class _KeyboardWidgetState extends State<KeyboardWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                              child: Row(
+                child: Row(
                     children: [
                       Flexible(
                         flex: 6, 

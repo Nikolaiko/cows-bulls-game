@@ -27,6 +27,7 @@ abstract class SinglePlayerGameStore with Store {
   
   List<int> _computerSecret = [];
 
+  Observable<bool> gameCompleted = Observable(false);
   Observable<int> currentUserInputIndex = Observable(0);
   Observable<UserInputModeEnum> inputMode = Observable(UserInputModeEnum.usualInput);
 
@@ -54,7 +55,8 @@ abstract class SinglePlayerGameStore with Store {
       (element) => int.parse(element.value)
     ).toList();
     
-    turnHistory.add(_turnAnalyzer.analyzeTurn(intValues, _computerSecret));
+    var currentTurn = _turnAnalyzer.analyzeTurn(intValues, _computerSecret);
+    turnHistory.add(currentTurn);
 
     List<UserInputCellData> newData = currentUserInput.map((element) {
       if (element.type != DigitButtonTypeEnum.locked) {
@@ -64,7 +66,10 @@ abstract class SinglePlayerGameStore with Store {
       }      
     }).toList();
 
+
+    gameCompleted.value = true; //currentTurn.bulls == currentUserInput.length;
     currentUserInput.setAll(0, newData);
+    currentUserInputIndex.value = currentUserInput.length - 1;
     currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);    
   }
 
@@ -82,8 +87,7 @@ abstract class SinglePlayerGameStore with Store {
 
   @action
   void backspace() {
-    int prevFreeIndex = _getPrevNotLockedCell(currentUserInputIndex.value);
-    print(prevFreeIndex);
+    int prevFreeIndex = _getPrevNotLockedCell(currentUserInputIndex.value);    
     if (prevFreeIndex != -1) {
       currentUserInputIndex.value = prevFreeIndex;
       currentUserInput[currentUserInputIndex.value] = 
