@@ -26,7 +26,7 @@ class GameAlertDialog extends StatelessWidget {
     return AlertDialog(
       title: new Text(this._title),
       content: new Text(this._content),
-      backgroundColor: this._color,
+      backgroundColor: this._color,      
       shape:
           RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
       actions: <Widget>[

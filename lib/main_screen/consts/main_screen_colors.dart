@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-const mainScreenBackColor = Colors.black;
+const mainScreenBackColor = Color(0xff222222);

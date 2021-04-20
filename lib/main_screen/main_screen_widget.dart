@@ -14,21 +14,19 @@ class MainScreenWidget extends StatelessWidget {
       body: SafeArea(
         child: Container(
           color: mainScreenBackColor,
-          child: Stack(
+          child: Stack(            
             children: [
-              _buildMainScreenTitle(),
+              _buildBackgroundImage(dimensions),
               _buildMainScreenImage(dimensions),              
+              _buildMainScreenTitle(dimensions),              
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width * 0.3),
-                    child: ElevatedButton(                                              
-                      style: playButtonStyle,
-                      child: Text("Играть!", style: mainButtonsStyle, textAlign: TextAlign.center),
-                      onPressed: () { _startSinglePlayerGame(context); }
-                    ),
+                  ElevatedButton(                                              
+                    style: playButtonStyle,
+                    child: Text("Играть!", style: mainButtonsStyle, textAlign: TextAlign.center),
+                    onPressed: () { _startSinglePlayerGame(context); }
                   ),
                   SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
                   Padding(
@@ -49,6 +47,13 @@ class MainScreenWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildBackgroundImage(ScreenDimensions dimensions) {
+    return SvgPicture.asset(
+      backElementsImage,                
+      width: dimensions.width,
+    );
+  }
+
   Widget _buildMainScreenImage(ScreenDimensions dimensions) {
     return Center(
       child: SvgPicture.asset(
@@ -58,15 +63,21 @@ class MainScreenWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildMainScreenTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildMainScreenTitle(ScreenDimensions dimensions) {
+    return Column(
       children: [
-        Expanded(
-          child: SvgPicture.asset(
-            mainTitleImage                
-          )
-        )                  
+        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.04),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: SvgPicture.asset(
+                mainTitleImage,
+                width: dimensions.width * 0.7,
+              )
+            )                  
+          ]
+        ),
       ]
     );
   }

@@ -1,7 +1,7 @@
 import 'package:cows_bulls_game/single_player_game/consts/single_game_screen_colors.dart';
 import 'package:flutter/material.dart';
 
-const keyboardDecorationRadius = 6.0;
+const keyboardDecorationRadius = 12.0;
 
 
 const keyboardDecoration = BoxDecoration(

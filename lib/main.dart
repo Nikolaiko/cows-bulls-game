@@ -1,3 +1,4 @@
+import 'package:cows_bulls_game/consts/app_colors.dart';
 import 'package:cows_bulls_game/consts/app_consts.dart';
 import 'package:cows_bulls_game/main_screen/main_screen_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: AppConsts.APP_NAME,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: navBarColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),      
       home: MainScreenWidget(),

@@ -30,7 +30,7 @@ class TurnRecordWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children:[ 
                 Text(
-                  "$_index",
+                  "${_index + 1}",
                   style: historyIndexTextStyle
                 )
               ]
@@ -63,7 +63,7 @@ class TurnRecordWidget extends StatelessWidget {
             flex: 4,
             fit: FlexFit.loose,
             child: Row(
-              children: _buildIconsRow()
+              children: _buildIconsRow(dimensions)
             ),
           )
         ]
@@ -71,13 +71,16 @@ class TurnRecordWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildIconsRow() {
+  List<Widget> _buildIconsRow(ScreenDimensions dimensions) {
     int index = _bulls;
     List<Widget> icons = List.empty(growable: true);
 
     while (index > 0) {
       icons.add(
-        SvgPicture.asset(bullImage)
+        SvgPicture.asset(
+          bullImage,
+          height: dimensions.withoutSafeAreaHeight * 0.06,
+        )        
       );
       index--;
     }
@@ -85,10 +88,23 @@ class TurnRecordWidget extends StatelessWidget {
     index = _cows;
     while (index > 0) {
       icons.add(
-        SvgPicture.asset(cowImage)
+        SvgPicture.asset(
+          cowImage,
+          height: dimensions.withoutSafeAreaHeight * 0.06,
+        ),        
       );
       index--;
     }
+
+    if (icons.isEmpty) {
+      icons.add(
+        SvgPicture.asset(
+          emptySignImage,
+          height: dimensions.withoutSafeAreaHeight * 0.06,
+        ),        
+      );
+    }
+
     return icons;
   }
 }
