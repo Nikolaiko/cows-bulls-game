@@ -1,50 +1,64 @@
+import 'package:cows_bulls_game/model/screen_dimensions.dart';
+import 'package:cows_bulls_game/single_player_game/consts/single_game_image_names.dart';
+import 'package:cows_bulls_game/single_player_game/consts/single_game_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class GameAlertDialog extends StatelessWidget {
-  //When creating please recheck 'context' if there is an error!
-
-  Color _color = Color.fromARGB(220, 117, 218 ,255);
-
-  String _title;
-  String _content;
-  String _yes;
-  String _no;
   Function _yesOnPressed;
   Function _noOnPressed;
 
   GameAlertDialog({String title, String content, Function yesOnPressed, Function noOnPressed, String yes = "Yes", String no = "No"}){
-    this._title = title;
-    this._content = content;
     this._yesOnPressed = yesOnPressed;
-    this._noOnPressed = noOnPressed;
-    this._yes = yes;
-    this._no = no;
+    this._noOnPressed = noOnPressed;    
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: new Text(this._title),
-      content: new Text(this._content),
-      backgroundColor: this._color,      
-      shape:
-          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15)),
-      actions: <Widget>[
-        new FlatButton(
-          child: new Text(this._yes),
-          textColor: Colors.greenAccent,
-          onPressed: () {
-            this._yesOnPressed();
-          },
+    ScreenDimensions dimensions = ScreenDimensions(context);
+    return Stack(
+      children: [
+        Container(
+          color: Colors.red,
+          width: dimensions.width,
+          height: dimensions.withoutSafeAreaHeight          
         ),
-        new FlatButton(
-          child: Text(this._no),
-          textColor: Colors.redAccent,
-          onPressed: () {
-            this._noOnPressed();
-          },
+        Center(
+          child: Container(                
+            decoration: dialogDecoration,
+            width: dimensions.width * 0.8,
+            height: dimensions.width * 0.55,                          
+            child: Stack(
+              children: [
+                SvgPicture.asset(dialogElements),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          SizedBox(height: dimensions.withoutSafeAreaHeight * 0.1),
+                          Text(
+                            "Ты выиграл!",
+                            style: dialogTitleTextStyle,
+                          ),
+                          Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              Text("Ts vyigral!")
+                            ]
+                          ),
+                          SizedBox(height: dimensions.withoutSafeAreaHeight * 0.04),
+                      ],)
+                    )  
+                  ],
+                )
+              ]
+            ),
+          ),
         ),
-      ],
+      ]
     );
   }
 }
