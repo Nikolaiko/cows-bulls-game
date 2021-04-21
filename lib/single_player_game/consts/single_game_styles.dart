@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 const keyboardDecorationRadius = 12.0;
 const dialogDecorationRadius = 20.0;
+const dialogButtonsRadius = 10.0;
 
 const dialogDecoration = BoxDecoration(
   color: dialogBackColor,
@@ -20,10 +21,31 @@ const keyboardDecoration = BoxDecoration(
   )
 );
 
+const BoxDecoration dialogRedButtonDecoration = const BoxDecoration(      
+  color: Colors.red,
+  borderRadius: BorderRadius.all(
+    const Radius.circular(dialogButtonsRadius)
+  )
+);
+
+const BoxDecoration dialogGrayButtonDecoration = const BoxDecoration(      
+  color: dialogGrayButtonColor,
+  borderRadius: BorderRadius.all(
+    const Radius.circular(dialogButtonsRadius)
+  )
+);
+
 const dialogTitleTextStyle = TextStyle(
   fontFamily: AppConsts.FONT_FAMILY_NAME,
   fontSize: 24,
   fontWeight: FontWeight.w400,
   color: dialogTitleColor
+);
+
+const dialogButtonsTextStyle = TextStyle(
+  fontFamily: AppConsts.FONT_FAMILY_NAME,
+  fontSize: 24,
+  fontWeight: FontWeight.w400,
+  color: Colors.white
 );
 

@@ -1,17 +1,19 @@
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/single_player_game/consts/single_game_image_names.dart';
 import 'package:cows_bulls_game/single_player_game/consts/single_game_styles.dart';
+import 'package:cows_bulls_game/single_player_game/dialogs/dialog_gray_button.dart';
+import 'package:cows_bulls_game/single_player_game/dialogs/dialog_red_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class GameAlertDialog extends StatelessWidget {
-  Function _yesOnPressed;
-  Function _noOnPressed;
+  final Function _yesOnPressed;
+  final Function _noOnPressed;
 
-  GameAlertDialog({String title, String content, Function yesOnPressed, Function noOnPressed, String yes = "Yes", String no = "No"}){
-    this._yesOnPressed = yesOnPressed;
-    this._noOnPressed = noOnPressed;    
-  }
+  GameAlertDialog(
+    this._noOnPressed,
+    this._yesOnPressed
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class GameAlertDialog extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          color: Colors.red,
+          color: Colors.transparent,
           width: dimensions.width,
           height: dimensions.withoutSafeAreaHeight          
         ),
@@ -44,9 +46,16 @@ class GameAlertDialog extends StatelessWidget {
                           ),
                           Spacer(),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children:[
-                              Text("Ts vyigral!")
+                              GestureDetector(
+                                onTap: _noOnPressed,
+                                child: DialogGrayButton("Выход")
+                              ),                              
+                              GestureDetector(
+                                onTap: _yesOnPressed,
+                                child: DialogRedButton("Еще раз")
+                              )
                             ]
                           ),
                           SizedBox(height: dimensions.withoutSafeAreaHeight * 0.04),
