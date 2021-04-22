@@ -74,43 +74,33 @@ class TurnRecordWidget extends StatelessWidget {
 
   List<Widget> _buildIconsRow(ScreenDimensions dimensions) {
     int index = _bulls;
-    List<Widget> icons = List.empty(growable: true);
-    
+    List<Widget> icons = List.empty(growable: true);    
+    while (index > 0) {
+      icons.add(
+        SvgPicture.asset(
+          bullImage          
+        )        
+      );
+      index--;
+    }
 
-    icons.add(SvgPicture.asset(          
-           bullImage,
-           width: dimensions.width * 0.08,             
-           )
-    );
-    
+    index = _cows;
+    while (index > 0) {
+      icons.add(
+        SvgPicture.asset(
+          cowImage          
+        ),        
+      );
+      index--;
+    }
 
-
-    // while (index > 0) {
-    //   icons.add(
-    //     SvgPicture.asset(
-    //       bullImage          
-    //     )        
-    //   );
-    //   index--;
-    // }
-
-    // index = _cows;
-    // while (index > 0) {
-    //   icons.add(
-    //     SvgPicture.asset(
-    //       cowImage          
-    //     ),        
-    //   );
-    //   index--;
-    // }
-
-    // if (icons.isEmpty) {
-    //   icons.add(
-    //     SvgPicture.asset(
-    //       emptySignImage          
-    //     ),        
-    //   );
-    // }
+    if (icons.isEmpty) {
+      icons.add(
+        SvgPicture.asset(
+          emptySignImage          
+        ),        
+      );
+    }
 
     return icons;
   }
