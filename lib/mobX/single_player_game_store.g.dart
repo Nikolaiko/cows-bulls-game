@@ -79,6 +79,17 @@ mixin _$_SinglePlayerGameStore on SinglePlayerGameStore, Store {
   }
 
   @override
+  void resetGame() {
+    final _$actionInfo = _$SinglePlayerGameStoreActionController.startAction(
+        name: 'SinglePlayerGameStore.resetGame');
+    try {
+      return super.resetGame();
+    } finally {
+      _$SinglePlayerGameStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 

@@ -21,12 +21,14 @@ class TurnRecordWidget extends StatelessWidget {
   Widget build(BuildContext context) {   
     ScreenDimensions dimensions = ScreenDimensions(context); 
     return Container(      
-      child: Row(        
+      child: Row(   
+        crossAxisAlignment: CrossAxisAlignment.center,     
         children: [
           Flexible(
             fit: FlexFit.loose,
             flex: 2,
-            child: Row(
+            child: Row(      
+              crossAxisAlignment: CrossAxisAlignment.center,        
               mainAxisAlignment: MainAxisAlignment.end,
               children:[ 
                 Text(
@@ -39,8 +41,7 @@ class TurnRecordWidget extends StatelessWidget {
           Flexible(
             flex: 1,
             fit: FlexFit.loose,
-            child: Container(
-              height: dimensions.withoutSafeAreaHeight * 0.05,
+            child: Container(              
               color: Colors.transparent
             ),
           ),
@@ -60,7 +61,7 @@ class TurnRecordWidget extends StatelessWidget {
             ),
           ),
           Flexible(
-            flex: 4,
+            flex: 5,
             fit: FlexFit.loose,
             child: Row(
               children: _buildIconsRow(dimensions)
@@ -74,36 +75,42 @@ class TurnRecordWidget extends StatelessWidget {
   List<Widget> _buildIconsRow(ScreenDimensions dimensions) {
     int index = _bulls;
     List<Widget> icons = List.empty(growable: true);
+    
 
-    while (index > 0) {
-      icons.add(
-        SvgPicture.asset(
-          bullImage,
-          height: dimensions.withoutSafeAreaHeight * 0.06,
-        )        
-      );
-      index--;
-    }
+    icons.add(SvgPicture.asset(          
+           bullImage,
+           width: dimensions.width * 0.08,             
+           )
+    );
+    
 
-    index = _cows;
-    while (index > 0) {
-      icons.add(
-        SvgPicture.asset(
-          cowImage,
-          height: dimensions.withoutSafeAreaHeight * 0.06,
-        ),        
-      );
-      index--;
-    }
 
-    if (icons.isEmpty) {
-      icons.add(
-        SvgPicture.asset(
-          emptySignImage,
-          height: dimensions.withoutSafeAreaHeight * 0.06,
-        ),        
-      );
-    }
+    // while (index > 0) {
+    //   icons.add(
+    //     SvgPicture.asset(
+    //       bullImage          
+    //     )        
+    //   );
+    //   index--;
+    // }
+
+    // index = _cows;
+    // while (index > 0) {
+    //   icons.add(
+    //     SvgPicture.asset(
+    //       cowImage          
+    //     ),        
+    //   );
+    //   index--;
+    // }
+
+    // if (icons.isEmpty) {
+    //   icons.add(
+    //     SvgPicture.asset(
+    //       emptySignImage          
+    //     ),        
+    //   );
+    // }
 
     return icons;
   }

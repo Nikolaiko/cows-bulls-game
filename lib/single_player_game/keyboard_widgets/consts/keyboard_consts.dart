@@ -1,3 +1,4 @@
+import 'package:cows_bulls_game/consts/app_consts.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,12 @@ const double currentTryContainerCoff = 0.01;
 const double currentTryDigitCellCoff = 0.05;  
 const double currentTryDigitSpacingCoff = 0.04;
 
+const double enterDigitRowSpaceCoeff = 0.01;
+const double enterDigitBottomSpaceCoeff = 0.05;
+const double enterDigitSideCoeff = 0.06;
+
+const double enterButtonHeightCoff = 0.06;
+
 const double BUTTON_TEXT_SIZE = 25.0;
 
 const TextStyle BUTTON_TEXT_STYLE = TextStyle(
@@ -16,8 +23,10 @@ const TextStyle BUTTON_TEXT_STYLE = TextStyle(
 );
 
 const TextStyle ENTER_BUTTON_TEXT_STYLE = TextStyle(
+  fontFamily: AppConsts.FONT_FAMILY_NAME,
   color: ENTER_BUTTON_TEXT_COLOR,
-  fontSize: BUTTON_TEXT_SIZE
+  fontSize: BUTTON_TEXT_SIZE,
+  fontWeight: FontWeight.w600
 );
 
 const TextStyle MARKED_BUTTON_TEXT_STYLE = TextStyle(

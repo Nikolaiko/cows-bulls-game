@@ -27,7 +27,7 @@ class KeyboardSideWidget extends StatelessWidget {
                 ? () => store.makeTurn()
                 : null,
               child: TextSideButtonWidget(
-                "Ввод",
+                "ВВОД",
                 dimens
               ),
             );
@@ -41,7 +41,7 @@ class KeyboardSideWidget extends StatelessWidget {
             dimens
           ),
         ),
-        SizedBox(height: dimens.width * currentTryDigitCellCoff),
+        SizedBox(height: dimens.width * enterDigitRowSpaceCoeff),
         Observer(
           builder: (observerContext) {
             return GestureDetector(

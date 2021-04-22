@@ -9,7 +9,7 @@ class LockedDigitCellWidget extends StatelessWidget {
   LockedDigitCellWidget(
     this._buttonText,     
     dimensions
-  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
+  ) : _side = dimensions.withoutSafeAreaHeight * enterDigitSideCoeff;
 
   @override
   Widget build(BuildContext context) {

@@ -17,11 +17,11 @@ class KeyboardMainPart extends StatelessWidget {
         InputNumbersRowWidget(
           rowLabels: ["1", "2", "3", "4", "5"]            
         ),
-        SizedBox(height: dimensions.width * currentTryDigitCellCoff),
+        SizedBox(height: dimensions.width * enterDigitRowSpaceCoeff),
         InputNumbersRowWidget(
           rowLabels: ["6", "7", "8", "9", "0"]
         ),
-        SizedBox(height: dimensions.width * currentTryDigitCellCoff)
+        SizedBox(height: dimensions.width * enterDigitBottomSpaceCoeff)
       ]
     );
   }

@@ -18,8 +18,8 @@ class GameUIWidget extends StatelessWidget {
           widgets.add(_buildMainGameScreen());
           if (store.gameCompleted.value) {
             widgets.add(GameAlertDialog(
-            _backButtonTap,
-            _restartButtonTap
+            () => Navigator.of(context).pop(),
+            () => store.resetGame()
           ));
           }
           return Stack(
@@ -48,13 +48,5 @@ class GameUIWidget extends StatelessWidget {
         )
       ]
     );
-  }
-
-  void _backButtonTap() {
-    
-  }
-
-  void _restartButtonTap() {
-
   }
 }

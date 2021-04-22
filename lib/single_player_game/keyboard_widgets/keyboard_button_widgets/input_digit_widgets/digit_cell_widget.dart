@@ -10,7 +10,7 @@ class DigitCellWidget extends StatelessWidget {
   DigitCellWidget(
     this._buttonText,     
     dimensions
-  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
+  ) : _side = dimensions.withoutSafeAreaHeight * enterDigitSideCoeff;
 
   @override
   Widget build(BuildContext context) {

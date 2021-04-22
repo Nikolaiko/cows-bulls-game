@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class TextSideButtonWidget extends StatelessWidget {
   final String _buttonText;
-  final double _side;  
+  final double _height;
 
   TextSideButtonWidget(
     this._buttonText,     
     dimensions
-  ) : _side = dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff;
+  ) : _height = dimensions.withoutSafeAreaHeight * enterButtonHeightCoff;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,13 @@ class TextSideButtonWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: SizedBox(
-          height: _side,        
-          child: Text(
-            _buttonText, 
-            style: ENTER_BUTTON_TEXT_STYLE
+          height: _height,          
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              _buttonText, 
+              style: ENTER_BUTTON_TEXT_STYLE
+            ),
           ),
         ),
       ),

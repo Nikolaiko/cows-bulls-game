@@ -19,9 +19,9 @@ abstract class SinglePlayerGameStore with Store {
   ) => _SinglePlayerGameStore(generator, analyzer);
 
   final RandomGenerator _randomGenerator;  
-  final TurnAnalyzer _turnAnalyzer;
+  final TurnAnalyzer _turnAnalyzer;  
 
-  SinglePlayerGameStore(this._randomGenerator, this._turnAnalyzer) {
+  SinglePlayerGameStore(this._randomGenerator, this._turnAnalyzer) {    
     _computerSecret = _randomGenerator.generateSequnce();
   }
   
@@ -67,7 +67,7 @@ abstract class SinglePlayerGameStore with Store {
     }).toList();
 
 
-    gameCompleted.value = true; //currentTurn.bulls == currentUserInput.length;
+    gameCompleted.value = currentTurn.bulls == currentUserInput.length;
     currentUserInput.setAll(0, newData);
     currentUserInputIndex.value = currentUserInput.length - 1;
     currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);    
@@ -115,6 +115,33 @@ abstract class SinglePlayerGameStore with Store {
     } else {
       _setNumberForCurrentPlace(digit);
     }
+  }
+
+  @action
+  void resetGame() {
+    turnHistory.clear();
+    markedDigits.clear();
+
+    currentUserInputIndex.value = 0;
+    inputMode.value = UserInputModeEnum.usualInput;
+
+    digitButtonsState.clear();
+    digitButtonsState.addAll(
+      [DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual]
+    );
+
+    currentUserInput.clear();
+    currentUserInput.addAll(
+      [UserInputCellData(" ", DigitButtonTypeEnum.usual), UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual)]
+    );
+
+    _computerSecret = _randomGenerator.generateSequnce();
+    gameCompleted.value = false;
   }
 
   void _setNumberForCurrentPlace(int number) {

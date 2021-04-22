@@ -42,7 +42,7 @@ class InputNumbersRowWidget extends StatelessWidget {
             child: Padding(
               padding: (i == rowLabels.length - 1) 
                 ? EdgeInsets.zero
-                : EdgeInsets.only(right: dimensions.width * currentTryDigitCellCoff),
+                : EdgeInsets.only(right: dimensions.width * enterDigitRowSpaceCoeff),
               child: _buildCellWidget(marked, locked, rowLabels[i], dimensions)                  
             )
           );
