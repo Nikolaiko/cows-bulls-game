@@ -1,3 +1,4 @@
+import 'package:cows_bulls_game/instructions_screen/instructions_screen.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_colors.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_images.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_text_styles.dart';
@@ -33,8 +34,11 @@ class MainScreenWidget extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: dimensions.width * 0.3),
                     child: ElevatedButton(                                              
                       style: rulesButtonStyle,
-                      child: Text("Правила", style: mainButtonsStyle, textAlign: TextAlign.center),
-                      onPressed: null
+                      child: Text("Правила", 
+                      style: mainButtonsStyle, 
+                      textAlign: TextAlign.center
+                    ),
+                      onPressed: () { _openInstructionsScreen(context); }
                     ),
                   ),
                   SizedBox(height: dimensions.withoutSafeAreaHeight * 0.1)
@@ -88,6 +92,17 @@ class MainScreenWidget extends StatelessWidget {
       MaterialPageRoute(
         builder: (routeContext) {
           return SingleGameInitializer();
+        }
+      )
+    );
+  }
+
+  void _openInstructionsScreen(BuildContext context) {
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (routeContext) {
+          return InstructionsScreen();
         }
       )
     );

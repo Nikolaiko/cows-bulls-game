@@ -1,4 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
+import 'package:cows_bulls_game/main_screen/consts/main_screen_colors.dart';
 import 'package:flutter/material.dart';
 
 const mainButtonsStyle = TextStyle(
@@ -14,5 +15,5 @@ ButtonStyle playButtonStyle = ElevatedButton.styleFrom(
 
 ButtonStyle rulesButtonStyle = ElevatedButton.styleFrom(
   primary: Colors.transparent,
-  onPrimary: Colors.grey
+  onPrimary: instructionsTextColor
 );
