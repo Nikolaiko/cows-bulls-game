@@ -2,9 +2,11 @@ import 'package:cows_bulls_game/instructions_screen/instructions_screen.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_colors.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_images.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_text_styles.dart';
+import 'package:cows_bulls_game/main_screen/main_screen_button.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/single_player_game/single_game_initializer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreenWidget extends StatelessWidget {
@@ -12,36 +14,47 @@ class MainScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenDimensions dimensions = ScreenDimensions(context);
     return Scaffold(
-      body: SafeArea(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
         child: Container(
+          width: dimensions.width,
+          height: dimensions.fullHeight,
           color: mainScreenBackColor,
           child: Stack(            
             children: [
               _buildBackgroundImage(dimensions),
               _buildMainScreenImage(dimensions),              
               _buildMainScreenTitle(dimensions),              
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
+              Row(
                 children: [
-                  ElevatedButton(                                              
-                    style: playButtonStyle,
-                    child: Text("Играть!", style: mainButtonsStyle, textAlign: TextAlign.center),
-                    onPressed: () { _startSinglePlayerGame(context); }
-                  ),
-                  SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: dimensions.width * 0.3),
-                    child: ElevatedButton(                                              
-                      style: rulesButtonStyle,
-                      child: Text("Правила", 
-                      style: mainButtonsStyle, 
-                      textAlign: TextAlign.center
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () => _startSinglePlayerGame(context),
+                          child: MainScreenButton(
+                            "Играть!", 
+                            dimensions,
+                            playButtonDecoration,
+                            playButtonTextStyle
+                          )
+                        ),                        
+                        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
+                        GestureDetector(
+                          onTap: () => _openInstructionsScreen(context),
+                          child: MainScreenButton(
+                            "Правила", 
+                            dimensions,
+                            rulesButtonDecoration,
+                            rulesButtonTextStyle
+                          )
+                        ),
+                        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.1)
+                      ]
                     ),
-                      onPressed: () { _openInstructionsScreen(context); }
-                    ),
-                  ),
-                  SizedBox(height: dimensions.withoutSafeAreaHeight * 0.1)
+                  )
                 ]
               )
             ]
@@ -52,6 +65,7 @@ class MainScreenWidget extends StatelessWidget {
   }
 
   Widget _buildBackgroundImage(ScreenDimensions dimensions) {
+    print(dimensions.width);
     return SvgPicture.asset(
       backElementsImage,                
       width: dimensions.width,
@@ -60,14 +74,24 @@ class MainScreenWidget extends StatelessWidget {
 
   Widget _buildMainScreenImage(ScreenDimensions dimensions) {
     return Center(
-      child: SvgPicture.asset(
-        cowAndBullImage,                
-        width: dimensions.width,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SvgPicture.asset(
+            bullSingleImage,
+            height: dimensions.fullHeight * 0.5
+          ),
+          SvgPicture.asset(
+            cowSinleImage,
+            height: dimensions.fullHeight * 0.4
+          )
+        ]
       ),
     );
   }
 
-  Widget _buildMainScreenTitle(ScreenDimensions dimensions) {
+  Widget _buildMainScreenTitle(ScreenDimensions dimensions) {    
     return Column(
       children: [
         SizedBox(height: dimensions.withoutSafeAreaHeight * 0.04),

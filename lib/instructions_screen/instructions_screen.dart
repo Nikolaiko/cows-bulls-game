@@ -6,6 +6,7 @@ import 'package:cows_bulls_game/main_screen/consts/main_screen_images.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/single_player_game/turns_history_widgets/consts/turn_history_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class InstructionsScreen extends StatelessWidget {
@@ -13,7 +14,8 @@ class InstructionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ScreenDimensions dimensions = ScreenDimensions(context);
     return Scaffold(      
-      body: SafeArea(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
         child: Container(
           color: instructionsBackColor,
           child: Row(
