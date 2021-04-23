@@ -24,7 +24,7 @@ class InstructionsScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     _buildBackgroundImage(dimensions),                    
-                    Column(
+                    Column(                      
                       children: [
                         _buildMainScreenTitle(dimensions),
                         _buildRulesTitle(dimensions),
@@ -34,20 +34,31 @@ class InstructionsScreen extends StatelessWidget {
                               horizontal: dimensions.width * 0.05
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children:[
                                 _buildFirstPartText(dimensions),
                                 SizedBox(height: dimensions.withoutSafeAreaHeight * 0.03),
                                 _buildBullRow(dimensions),
                                 SizedBox(height: dimensions.withoutSafeAreaHeight * 0.03),
-                                _buildCowsRow(dimensions),
-                                Spacer(),
-                                _buildCloseButton(context, dimensions)
+                                _buildCowsRow(dimensions),                                
                               ]
-                            ),
+                            ),                            
                           ),
-                        )                        
+                        ),                        
                       ]
-                    )
+                    ),
+                    Column(                      
+                      children: [
+                        Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildCloseButton(context, dimensions)
+                          ],
+                        ),                        
+                        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.03)   
+                      ],
+                    )                    
                   ]
                 )                                                       
               )
@@ -115,8 +126,9 @@ class InstructionsScreen extends StatelessWidget {
 
   Widget _buildFirstPartText(ScreenDimensions dimensions) {
     return Flexible(
-      child: Text(
-        firstPartText,
+      child: Text(        
+        firstPartText,        
+        textAlign: TextAlign.left,
         style: TextStyle(
           fontFamily: AppConsts.FONT_FAMILY_NAME,
           fontSize: 14,
@@ -158,11 +170,9 @@ class InstructionsScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: SvgPicture.asset(
-                mainTitleImage,
-                width: dimensions.width * 0.5,
-              )
+            SvgPicture.asset(
+              mainTitleImage,
+              width: dimensions.width * 0.5,
             )                  
           ]
         ),

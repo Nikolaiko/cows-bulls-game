@@ -98,11 +98,10 @@ class MainScreenWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: SvgPicture.asset(
-                mainTitleImage,
-                width: dimensions.width * 0.7,
-              )
+            Container(
+              width: dimensions.width * 0.7,
+              height: dimensions.fullHeight * 0.3,              
+              child: SvgPicture.asset(mainTitleImage)
             )                  
           ]
         ),
