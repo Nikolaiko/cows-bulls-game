@@ -80,11 +80,11 @@ class MainScreenWidget extends StatelessWidget {
         children: [
           SvgPicture.asset(
             bullSingleImage,
-            height: dimensions.fullHeight * 0.5
+            height: dimensions.fullHeight * 0.4
           ),
           SvgPicture.asset(
             cowSinleImage,
-            height: dimensions.fullHeight * 0.4
+            height: dimensions.fullHeight * 0.3
           )
         ]
       ),

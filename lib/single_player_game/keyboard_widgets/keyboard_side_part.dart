@@ -55,7 +55,7 @@ class KeyboardSideWidget extends StatelessWidget {
             );
           }
         ),
-        SizedBox(height: dimens.width * currentTryDigitCellCoff)              
+        SizedBox(height: dimens.width * 0.01)              
       ] 
     );
   }

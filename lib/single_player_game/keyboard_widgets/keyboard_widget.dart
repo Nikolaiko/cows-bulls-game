@@ -49,19 +49,3 @@ class _KeyboardWidgetState extends State<KeyboardWidget> {
     );
   }
 }
-
-
-/*
-Row(
-                  children: [
-                    Flexible(
-                      flex: 6, 
-                      child: KeyboardMainPart()
-                    ),
-                    Flexible(
-                      flex: 2, 
-                      child: KeyboardSideWidget()
-                    )
-                  ]
-                ),
-*/

@@ -11,9 +11,9 @@ class KeyboardMainPart extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.02),
+        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
         CurrentTryNumbersWidget(),
-        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.02),
+        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
         InputNumbersRowWidget(
           rowLabels: ["1", "2", "3", "4", "5"]            
         ),
@@ -21,7 +21,7 @@ class KeyboardMainPart extends StatelessWidget {
         InputNumbersRowWidget(
           rowLabels: ["6", "7", "8", "9", "0"]
         ),
-        SizedBox(height: dimensions.width * enterDigitBottomSpaceCoeff)
+        SizedBox(height: dimensions.width * 0.01)
       ]
     );
   }

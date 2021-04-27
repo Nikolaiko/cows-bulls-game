@@ -33,7 +33,8 @@ class LocableDigitWidget extends StatelessWidget {
             padding: EdgeInsets.all(dimensions.width * currentTryContainerCoff),
             child: SvgPicture.asset(
               lock_digit_image,                
-              width: dimensions.width * currentTryDigitCellCoff,
+              //width: dimensions.width * currentTryDigitCellCoff,
+              height: dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff,
               color: _locked ? LOCK_LOCKED_COLOR : LOCK_USUAL_COLOR,
             ),
           ),
