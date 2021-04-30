@@ -1,4 +1,5 @@
 # AI Cows and Bulls
+Test project for checking statement : one code 4 platfroms. Working with MobX and SVG also.
 
 Пробный проект для проверки подхода - один код - 4 платформы.
 Помимо этого, потрогать MobX и SVG.
