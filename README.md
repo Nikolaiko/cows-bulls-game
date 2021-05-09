@@ -7,4 +7,4 @@ Test project for checking statement : one code 4 platfroms. Working with MobX an
 - [AppStore iOS](https://apps.apple.com/us/app/artificial-cows-and-bulls/id1560681072)
 - [App Store MacOS](https://apps.apple.com/tt/app/artificial-cows-and-bulls/id1560681072)
 - [Web](https://nikolaiko.github.io/#/)
-- [Android](https://install.appcenter.ms/users/nikbakland-h8nz/apps/cows-and-bulls/distribution_groups/public%20group)
+- [Android](https://play.google.com/store/apps/details?id=com.nikolai.cows_bulls_game)
