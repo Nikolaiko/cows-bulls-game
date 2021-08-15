@@ -70,7 +70,7 @@ abstract class SinglePlayerGameStore with Store {
     gameCompleted.value = currentTurn.bulls == currentUserInput.length;
     currentUserInput.setAll(0, newData);
     currentUserInputIndex.value = currentUserInput.length - 1;
-    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);    
+    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);   
   }
 
   @action
