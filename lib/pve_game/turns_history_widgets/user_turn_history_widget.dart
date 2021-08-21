@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
+import 'package:cows_bulls_game/mobX/pve_game_store.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/ui/common/turn_history_widgets/turn_record_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class TurnsHistoryList extends StatelessWidget {
+class UserTurnsHistoryWidget extends StatelessWidget {
   final ScrollController _controller = ScrollController();
 
   @override
@@ -18,11 +18,11 @@ class TurnsHistoryList extends StatelessWidget {
       ),
       child: Observer(
         builder: (observerContext) {
-          var store = Provider.of<SinglePlayerGameStore>(context);          
+          var store = Provider.of<PveGameStore>(context);          
           Timer(Duration(milliseconds: 100), () {
             _controller.jumpTo(_controller.position.maxScrollExtent);
           });                             
-          return _buildList(store.turnHistory);
+          return _buildList(store.userTurnHistory);
         }
       )
     );

@@ -16,3 +16,5 @@ const Color ENTER_BUTTON_COLOR = Colors.red;
 const Color ENTER_BUTTON_TEXT_COLOR = Colors.white;
 
 const Color usualNumberBackground = Color(0xFFB6B6B6);
+
+const Color keyboardBackColor = const Color(0xFFE7E2DE);

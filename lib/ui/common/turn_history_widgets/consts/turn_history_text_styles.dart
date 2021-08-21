@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
-import 'package:cows_bulls_game/single_player_game/turns_history_widgets/consts/turn_history_colors.dart';
+import 'package:cows_bulls_game/ui/common/turn_history_widgets/consts/turn_history_colors.dart';
 import 'package:flutter/material.dart';
 
 const historyIndexTextStyle = TextStyle(

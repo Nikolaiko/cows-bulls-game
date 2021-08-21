@@ -4,7 +4,7 @@ import 'package:cows_bulls_game/instructions_screen/const/instructions_colors.da
 import 'package:cows_bulls_game/instructions_screen/const/instructions_consts.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_images.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
-import 'package:cows_bulls_game/single_player_game/turns_history_widgets/consts/turn_history_images.dart';
+import 'package:cows_bulls_game/ui/common/turn_history_widgets/consts/turn_history_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
