@@ -1,6 +1,9 @@
 import 'package:cows_bulls_game/consts/common_ui_consts/common_ui_styles.dart';
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
+import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_main_keyboard.dart';
+import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_side_keyboard.dart';
 import 'package:cows_bulls_game/single_player_game/dialogs/alert_dialog.dart';
+import 'package:cows_bulls_game/ui/common/keyboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -44,8 +47,11 @@ class PveUIWidget extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Container(              
-            color: Colors.red,     
-            //decoration: keyboardDecoration
+            child: KeyboardWidget(
+              PveMainKeyboard(),
+              PveSideKeyboard()
+            ),     
+            decoration: keyboardDecoration
           )            
         )
       ]

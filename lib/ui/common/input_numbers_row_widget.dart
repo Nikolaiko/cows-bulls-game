@@ -35,22 +35,26 @@ class InputNumbersRowWidget extends StatelessWidget {
 
   List<Widget> _buildRowElements(ScreenDimensions dimensions) {    
     List<Widget> widgets = [];    
-    for (int i = 0; i < rowLabels.length; i++) {
-      int digit = int.parse(rowLabels[i]);
-      bool marked = _isDigitMarked(digit);
-      bool locked = _isDigitLocked(digit); 
+    for (int i = 0; i < rowLabels.length; i++) {      
       widgets.add(
-        GestureDetector(
-          onTap: (_inputMode == UserInputModeEnum.usualInput && (marked || locked)) 
-            ? null
-            : () => _inputDigit(digit),
-          child: Padding(
-            padding: (i == rowLabels.length - 1) 
-              ? EdgeInsets.zero
-              : EdgeInsets.only(right: dimensions.width * enterDigitRowSpaceCoeff),
-            child: _buildCellWidget(marked, locked, rowLabels[i], dimensions)                  
-          )
-        )        
+        Observer(
+          builder: (context) {
+            int digit = int.parse(rowLabels[i]);
+            bool marked = _isDigitMarked(digit);
+            bool locked = _isDigitLocked(digit); 
+            return GestureDetector(
+              onTap: (_inputMode == UserInputModeEnum.usualInput && (marked || locked)) 
+                ? null
+                : () => _inputDigit(digit),
+              child: Padding(
+                padding: (i == rowLabels.length - 1) 
+                  ? EdgeInsets.zero
+                  : EdgeInsets.only(right: dimensions.width * enterDigitRowSpaceCoeff),
+                child: _buildCellWidget(marked, locked, rowLabels[i], dimensions)                  
+              )
+            );
+          }
+        )                
       );
     }
     return widgets;

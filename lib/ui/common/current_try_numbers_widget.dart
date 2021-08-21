@@ -30,8 +30,6 @@ class CurrentTryNumbersWidget extends StatelessWidget {
   }
 
   List<Widget> _buildRowElements(ScreenDimensions dimensions) {    
-    //List<UserInputCellData> currentTryValues = store.currentUserInput;
-    //int selectedIndex = store.currentUserInputIndex.value;
     List<Widget> widgets = [];
     for (int i = 0; i < _currentTryValues.length; i++) {
       widgets.add(
