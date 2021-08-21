@@ -3,6 +3,7 @@ import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/model/user_input_cell_data.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/services/abstract/random_generator.dart';
+import 'package:collection/collection.dart';
 import 'package:cows_bulls_game/services/abstract/turn_analyzer.dart';
 import 'package:mobx/mobx.dart';
 
@@ -18,8 +19,8 @@ abstract class SinglePlayerGameStore with Store {
     TurnAnalyzer analyzer
   ) => _SinglePlayerGameStore(generator, analyzer);
 
-  final RandomGenerator _randomGenerator;  
-  final TurnAnalyzer _turnAnalyzer;  
+  final RandomGenerator _randomGenerator;
+  final TurnAnalyzer _turnAnalyzer;
 
   SinglePlayerGameStore(this._randomGenerator, this._turnAnalyzer) {    
     _computerSecret = _randomGenerator.generateSequnce();
@@ -145,9 +146,8 @@ abstract class SinglePlayerGameStore with Store {
   }
 
   void _setNumberForCurrentPlace(int number) {
-    var element = currentUserInput.firstWhere(
-      (element) => element.value == number.toString(),
-      orElse: () => null
+    UserInputCellData? element = currentUserInput.firstWhereOrNull(
+      (element) => element.value == number.toString()      
     );
     
     if (element != null) {
@@ -216,9 +216,8 @@ abstract class SinglePlayerGameStore with Store {
   }
 
   bool isDigitLocked(int digit) {
-    var element = currentUserInput.firstWhere(
-      (element) => element.value == digit.toString() && element.type == DigitButtonTypeEnum.locked,
-      orElse: () => null
+    UserInputCellData? element = currentUserInput.firstWhereOrNull(
+      (element) => element.value == digit.toString() && element.type == DigitButtonTypeEnum.locked      
     );    
     return element != null;
   }
@@ -228,9 +227,8 @@ abstract class SinglePlayerGameStore with Store {
   }
 
   bool isInputValid() {
-    var element = currentUserInput.firstWhere(
-      (element) => element.value == " ",
-      orElse: () => null
+    UserInputCellData? element = currentUserInput.firstWhereOrNull(
+      (element) => element.value == " "      
     );    
     return element == null;
   }

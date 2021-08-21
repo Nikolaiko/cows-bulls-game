@@ -12,6 +12,7 @@ class AIGuessAnalyzer extends BlindGuessAnalyzer {
     this._turnAnalyzer
   );
 
+  @override
   void setSecret(List<int> secret) {
     _computerSecret = secret;
   }

@@ -11,7 +11,7 @@ class LocableDigitWidget extends StatelessWidget {
   final bool _locked;
   final bool _active;
   final VoidCallback _lockCallback;
-  final VoidCallback _selectCallback;
+  final VoidCallback? _selectCallback;
 
   LocableDigitWidget(
     this._buttonText,
@@ -32,8 +32,7 @@ class LocableDigitWidget extends StatelessWidget {
           child: Container(            
             padding: EdgeInsets.all(dimensions.width * currentTryContainerCoff),
             child: SvgPicture.asset(
-              lock_digit_image,                
-              //width: dimensions.width * currentTryDigitCellCoff,
+              lock_digit_image,                              
               height: dimensions.withoutSafeAreaHeight * currentTryDigitCellCoff,
               color: _locked ? LOCK_LOCKED_COLOR : LOCK_USUAL_COLOR,
             ),

@@ -1,6 +1,6 @@
 import 'package:cows_bulls_game/model/ai/guess_feedback.dart';
+import 'package:cows_bulls_game/model/collections/pair.dart';
 import 'package:cows_bulls_game/services/abstract/blind_guess_analyzer.dart';
-import 'package:flutter/material.dart';
 
 class AI {
   static const List<int> allNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -53,28 +53,48 @@ class AI {
     unusedGuesses.shuffle();    
   }
 
-  void makeTurn() {
-    if (unusedGuesses.length == allCombinations.length) {
-      String firstGuess = unusedGuesses.removeLast();
-      GuessFeedback feedback = _analyzer.analyzeGuess(firstGuess);
-      List<String> tempSecrets = List.from(possibleSecrets);
+  String makeTurn() {
+    String guess = unusedGuesses.length == allCombinations.length
+      ? unusedGuesses.removeLast()
+      : _selectNextGuess();
 
-      
-    }
-  }
+    GuessFeedback feedback = _analyzer.analyzeGuess(guess);
+    List<String> tempSecrets = List.from(possibleSecrets);
 
-  GuessFeedback _calculateFeedback(String secret, String guess) {
-    int cows = 0;
-    int bulls = 0;
-
-    for(int index = 0; index < guess.length; index++) {
-      if (guess[index] == secret[index]) {
-        bulls += 1;        
-      } else if (secret.contains(guess[index])) {
-        cows += 1;
+    for (var currentSecret in tempSecrets) {
+      GuessFeedback possibleFeedBack = _analyzer.analyzePossibleSecret(currentSecret, guess);
+      if (possibleFeedBack != feedback) {
+        possibleSecrets.remove(currentSecret);
       }
     }
-    return GuessFeedback(bulls, cows);
+    return guess;    
   }
 
+  String _selectNextGuess() {
+    List<Pair<String, int>> guessStats = List.empty(growable: true);
+    for (String currentGuess in unusedGuesses) {
+      int maxHits = 0;
+      for (String possibleSecrect in possibleSecrets) {
+        GuessFeedback possibleFeedBack = _analyzer.analyzePossibleSecret(possibleSecrect, currentGuess);
+        if (possibleFeedBack.bulls > maxHits) {
+          maxHits = possibleFeedBack.bulls;
+        }
+      }
+      guessStats.add(Pair<String, int>(currentGuess, maxHits));
+    }    
+    guessStats.sort((a, b) => a.second.compareTo(b.second));    
+    guessStats = guessStats.reversed.toList();
+
+    var filteredList = guessStats.where(
+      (element) => element.second == guessStats.first.second
+    ).toList();
+
+    Pair<String, int> selectedGuess = filteredList.firstWhere(
+      (element) => possibleSecrets.contains(element.first),
+      orElse: () => guessStats.first
+    );
+
+    unusedGuesses.remove(selectedGuess.first);
+    return selectedGuess.first;
+  }
 }

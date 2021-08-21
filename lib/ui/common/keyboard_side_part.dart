@@ -1,4 +1,4 @@
-import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
+import 'package:cows_bulls_game/model/callback_types.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/consts/keyboard_consts.dart';
@@ -6,25 +6,38 @@ import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_but
 import 'package:cows_bulls_game/single_player_game/keyboard_widgets/keyboard_button_widgets/side_button_widgets/text_side_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 
 class KeyboardSideWidget extends StatelessWidget {
   static const double BETWEEN_BUTTONS_SPACE = 0.1;
   static const String USUAL_MODE_TITLE = "Обычный";
   static const String MARK_MODE_TITLE = "Выделение";
 
+  final BooleanCheckFunction _canMakeTurn;
+  final VoidCallback _makeTurn;
+  final VoidCallback _switchInputType;
+  final VoidCallback _backspace;
+  final UserInputModeEnum _inputType;
+
+  KeyboardSideWidget(
+    this._canMakeTurn,
+    this._makeTurn,
+    this._backspace,
+    this._switchInputType,
+    this._inputType
+  );
+
   @override
   Widget build(BuildContext context) {
     var dimens = ScreenDimensions(context);
-    var store = Provider.of<SinglePlayerGameStore>(context, listen: false);
+    //var store = Provider.of<SinglePlayerGameStore>(context, listen: false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,      
       children: [
         Observer(
           builder: (observerContext) {
             return GestureDetector(
-              onTap: store.isInputValid() 
-                ? () => store.makeTurn()
+              onTap: _canMakeTurn()
+                ? _makeTurn
                 : null,
               child: TextSideButtonWidget(
                 "ВВОД",
@@ -35,7 +48,7 @@ class KeyboardSideWidget extends StatelessWidget {
         ),      
         SizedBox(height: dimens.withoutSafeAreaHeight * 0.02),  
         GestureDetector(
-          onTap: () => store.backspace(),
+          onTap: _backspace,
           child: IconSideButtonWidget(
             Icons.backspace_outlined,
             dimens
@@ -45,9 +58,9 @@ class KeyboardSideWidget extends StatelessWidget {
         Observer(
           builder: (observerContext) {
             return GestureDetector(
-              onTap: () => store.switchInputMode(),
+              onTap: _switchInputType,
               child: IconSideButtonWidget(
-                store.inputMode.value == UserInputModeEnum.usualInput 
+                _inputType == UserInputModeEnum.usualInput 
                   ? Icons.edit_outlined
                   : Icons.edit_sharp,
                 dimens

@@ -4,6 +4,7 @@ import 'package:cows_bulls_game/main_screen/consts/main_screen_images.dart';
 import 'package:cows_bulls_game/main_screen/consts/main_screen_text_styles.dart';
 import 'package:cows_bulls_game/main_screen/main_screen_button.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
+import 'package:cows_bulls_game/pve_game/pve_game_initializer.dart';
 import 'package:cows_bulls_game/single_player_game/single_game_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +37,16 @@ class MainScreenWidget extends StatelessWidget {
                           onTap: () => _startSinglePlayerGame(context),
                           child: MainScreenButton(
                             "Играть!", 
+                            dimensions,
+                            playButtonDecoration,
+                            playButtonTextStyle
+                          )
+                        ),                        
+                        SizedBox(height: dimensions.withoutSafeAreaHeight * 0.01),
+                        GestureDetector(
+                          onTap: () => _startPveGame(context),
+                          child: MainScreenButton(
+                            "Против AI!", 
                             dimensions,
                             playButtonDecoration,
                             playButtonTextStyle
@@ -115,6 +126,17 @@ class MainScreenWidget extends StatelessWidget {
       MaterialPageRoute(
         builder: (routeContext) {
           return SingleGameInitializer();
+        }
+      )
+    );
+  }
+
+  void _startPveGame(BuildContext context) {
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (routeContext) {
+          return PveGameInitializer();
         }
       )
     );

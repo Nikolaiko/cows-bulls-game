@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ScreenDimensions {
-  double width;
-  double fullHeight;
-  double withoutSafeAreaHeight;
+  double width = 0.0;
+  double fullHeight = 0.0;
+  double withoutSafeAreaHeight = 0.0;
 
   ScreenDimensions(BuildContext context) {
     width = MediaQuery.of(context).size.width;

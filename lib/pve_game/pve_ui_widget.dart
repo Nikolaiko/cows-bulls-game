@@ -1,19 +1,16 @@
 import 'package:cows_bulls_game/consts/common_ui_consts/common_ui_styles.dart';
-import 'package:cows_bulls_game/mobX/single_player_game_store.dart';
+import 'package:cows_bulls_game/mobX/pve_game_store.dart';
 import 'package:cows_bulls_game/single_player_game/dialogs/alert_dialog.dart';
-import 'package:cows_bulls_game/single_player_game/keyboard_widgets/single_game_side_keyboard.dart';
-import 'package:cows_bulls_game/ui/common/keyboard_widget.dart';
-import 'package:cows_bulls_game/single_player_game/turns_history_widgets/turns_history_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-import 'keyboard_widgets/single_keyboard_main_part.dart';
+class PveUIWidget extends StatelessWidget {
+  const PveUIWidget({ Key? key }) : super(key: key);
 
-class GameUIWidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {   
-    var store = Provider.of<SinglePlayerGameStore>(context, listen: false);    
+  Widget build(BuildContext context) {
+    var store = Provider.of<PveGameStore>(context, listen: false);    
     return Expanded(
       child: Observer(
         builder: (contextObserver) {
@@ -37,17 +34,18 @@ class GameUIWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
-          flex: 2,
-          child: TurnsHistoryList()
+          flex: 1,
+          child: Container(color: Colors.black)
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(color: Colors.amber)
         ),
         Expanded(
           flex: 1,
           child: Container(              
-            child: KeyboardWidget(
-              SingleKeyboardMainPart(),
-              SingleGameSideKeyboard()
-            ),              
-            decoration: keyboardDecoration
+            color: Colors.red,     
+            //decoration: keyboardDecoration
           )            
         )
       ]
