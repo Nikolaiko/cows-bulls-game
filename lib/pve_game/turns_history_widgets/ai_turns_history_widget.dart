@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cows_bulls_game/consts/app_consts.dart';
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
@@ -25,7 +26,7 @@ class AITurnHistoryWidget extends StatelessWidget {
             _controller.jumpTo(_controller.position.maxScrollExtent);
           });
 
-          Widget historyList = _buildList(store.aiTurnHistory);
+          Widget historyList = _buildList(store.aiTurnHistory, dimensions);
           Widget progressBar = _buildProgressLoader(dimensions);
 
           return store.computerThinking.value
@@ -36,16 +37,38 @@ class AITurnHistoryWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildList(List<GameTurn> turns) {
-    print(turns);
+  Widget _buildList(List<GameTurn> turns, ScreenDimensions dimensions) {
     return ListView.builder(  
       controller: _controller,                  
-      itemCount: turns.length,
-      itemBuilder: (context, i) { 
-        String historyText = "";
-        turns[i].turnValues.forEach((element) { historyText += "$element"; });
-        return TurnRecordWidget(i, historyText, turns[i].cows, turns[i].bulls);
+      itemCount: turns.length + 1,
+      itemBuilder: (context, i) {
+        return i == 0
+          ? _buildListTitle(dimensions)
+          : _buildRow(turns[i - 1], i - 1);
       }
+    );
+  }
+
+  Widget _buildRow(GameTurn turn, int index) {
+    String historyText = "";
+    turn.turnValues.forEach((element) { historyText += "*"; });
+    return TurnRecordWidget(index, historyText, turn.cows, turn.bulls);
+  }
+
+  Widget _buildListTitle(ScreenDimensions dimensions) {
+    return Padding(
+      padding: EdgeInsets.only(        
+        top: dimensions.withoutSafeAreaHeight * 0.01      
+      ),
+      child: Text(
+        "Ходы противника",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontFamily: AppConsts.FONT_FAMILY_NAME,
+          fontSize: 20,
+          fontWeight: FontWeight.w400
+        )
+      ),
     );
   }
 

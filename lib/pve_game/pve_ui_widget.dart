@@ -1,5 +1,6 @@
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
 import 'package:cows_bulls_game/model/game_side_enum.dart';
+import 'package:cows_bulls_game/pve_game/dialog/ai_win_dialog.dart';
 import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_main_keyboard.dart';
 import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_side_keyboard.dart';
 import 'package:cows_bulls_game/pve_game/turns_history_widgets/ai_turns_history_widget.dart';
@@ -22,15 +23,15 @@ class PveUIWidget extends StatelessWidget {
       widgets.add(_buildMainGameScreen());
       switch (store.gameWinner.value) {
         case GameSide.ai: {
-          widgets.add(GameAlertDialog(
-            () { Navigator.of(contextObserver, rootNavigator: true).popUntil((route) => route.isFirst); print("EXIT"); },
-            () { store.resetGame(); print("Reset!!!"); }
+          widgets.add(AIWinDialog(
+            () => Navigator.of(contextObserver, rootNavigator: true).popUntil((route) => route.isFirst),
+            () => store.resetGame()
           ));
           break;
         }
         case GameSide.user: {
           widgets.add(GameAlertDialog(
-            () => Navigator.of(context).pop(), 
+            () => Navigator.of(contextObserver, rootNavigator: true).popUntil((route) => route.isFirst),
             () => store.resetGame()
           ));
           break;
@@ -51,6 +52,10 @@ class PveUIWidget extends StatelessWidget {
         Expanded(
           flex: 1, 
           child: AITurnHistoryWidget()
+        ),
+        Container(
+          height: 1,
+          color: Colors.black,
         ),
         Expanded(
           flex: 1, 
