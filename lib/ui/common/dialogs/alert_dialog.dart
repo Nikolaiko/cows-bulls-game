@@ -1,8 +1,8 @@
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
-import 'package:cows_bulls_game/single_player_game/consts/single_game_image_names.dart';
-import 'package:cows_bulls_game/single_player_game/consts/single_game_styles.dart';
-import 'package:cows_bulls_game/single_player_game/dialogs/dialog_gray_button.dart';
-import 'package:cows_bulls_game/single_player_game/dialogs/dialog_red_button.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/consts/dialog_game_styles.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/consts/dialogs_image_names.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/dialog_gray_button.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/dialog_red_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
