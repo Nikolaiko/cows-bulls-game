@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
-import 'package:cows_bulls_game/pve_game/pve_ui_widget.dart';
+import 'package:cows_bulls_game/ui/pve_game/pve_ui_widget.dart';
 import 'package:flutter/material.dart';
 
 class PveScreenWidget extends StatelessWidget {

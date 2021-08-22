@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
-import 'package:cows_bulls_game/pve_game/pve_screen_widget.dart';
+import 'package:cows_bulls_game/ui/pve_game/pve_screen_widget.dart';
 import 'package:cows_bulls_game/services/random_sequnce_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,5 @@
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
+import 'package:cows_bulls_game/ui/main_screen/consts/main_screen_consts.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenButton extends StatelessWidget {

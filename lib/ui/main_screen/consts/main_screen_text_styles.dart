@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
-import 'package:cows_bulls_game/main_screen/consts/main_screen_colors.dart';
+import 'package:cows_bulls_game/ui/main_screen/consts/main_screen_colors.dart';
 import 'package:flutter/material.dart';
 
 const TextStyle playButtonTextStyle = TextStyle(
