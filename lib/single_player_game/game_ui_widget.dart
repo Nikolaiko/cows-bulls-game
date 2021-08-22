@@ -19,7 +19,9 @@ class GameUIWidget extends StatelessWidget {
       widgets.add(_buildMainGameScreen());
       if (store.gameCompleted.value) {
         widgets.add(GameAlertDialog(
-            () => Navigator.of(context).pop(), () => store.resetGame()));
+          () => Navigator.of(context, rootNavigator: true).popUntil((route) => route.isFirst),
+          () => store.resetGame()
+        ));
       }
       return Stack(children: widgets);
     }));

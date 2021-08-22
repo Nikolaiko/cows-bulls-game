@@ -50,8 +50,7 @@ class AITurnHistoryWidget extends StatelessWidget {
   }
 
   Widget _buildProgressLoader(ScreenDimensions dimensions) {
-    return Container(
-      color: Colors.black,
+    return Container(      
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

@@ -1,18 +1,12 @@
-import 'dart:isolate';
-
 import 'package:cows_bulls_game/consts/gameplay_consts.dart';
+import 'package:cows_bulls_game/model/ai/ai_parameters_state.dart';
 import 'package:cows_bulls_game/model/ai/guess_feedback.dart';
-import 'package:cows_bulls_game/model/callback_types.dart';
 import 'package:cows_bulls_game/model/collections/pair.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
-import 'package:cows_bulls_game/services/abstract/blind_guess_analyzer.dart';
 
 class AI {
   static const List<int> _allNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  static List<String> _allCombinations = List.empty(growable: true);
-  static List<String> _possibleSecrets = List.empty();
-  static List<String> _unusedGuesses = List.empty();
-  static List<int> _secret = List.empty();
+  static List<String> allCombinations = List.empty(growable: true);
 
   static void initAllCombinations() {
     List<int> currentNum = List.empty(growable: true);
@@ -31,7 +25,7 @@ class AI {
                 for(int fourthNum in _allNumbers) {
                   if (!currentNum.contains(fourthNum)) {
                     currentNum.add(fourthNum);
-                    _allCombinations.add("${currentNum[0]}${currentNum[1]}${currentNum[2]}${currentNum[3]}");
+                    allCombinations.add("${currentNum[0]}${currentNum[1]}${currentNum[2]}${currentNum[3]}");
                     currentNum.removeLast();
                   }
                 }
@@ -46,36 +40,29 @@ class AI {
     }
   }
 
-  static void prepareForMatch(List<int> secret) {
-    _secret = secret;
-    _possibleSecrets = List.from(_allCombinations);
-    _unusedGuesses = List.from(_allCombinations, growable: true);
-    _unusedGuesses.shuffle();    
-  }
+  static AIParametersState makeTurn(AIParametersState state) {    
+    String guess = state.unusedGuesses.length == allCombinations.length
+      ? state.unusedGuesses.removeLast()
+      : _selectNextGuess(state);
+    state.lastTurn = guess;
 
-  static String makeTurn(String message) {    
-    String guess = _unusedGuesses.length == _allCombinations.length
-      ? _unusedGuesses.removeLast()
-      : _selectNextGuess();
-
-    GuessFeedback feedback = analyzeAIGuess(guess);
-    List<String> tempSecrets = List.from(_possibleSecrets);
+    GuessFeedback feedback = analyzeAIGuess(guess, state.secret);
+    List<String> tempSecrets = List.from(state.possibleSecrets);
 
     for (var currentSecret in tempSecrets) {
       GuessFeedback possibleFeedBack = analyzePossibleSecret(currentSecret, guess);
       if (possibleFeedBack != feedback) {
-        _possibleSecrets.remove(currentSecret);
+        state.possibleSecrets.remove(currentSecret);
       }
     }
-    return guess;
+    return state;
   }
 
-  static String _selectNextGuess() {
+  static String _selectNextGuess(AIParametersState state) {
     List<Pair<String, int>> guessStats = List.empty(growable: true);
-    for (String currentGuess in _unusedGuesses) {
+    for (String currentGuess in state.unusedGuesses) {
       int maxHits = 0;
-      for (String possibleSecrect in _possibleSecrets) {
-
+      for (String possibleSecrect in state.possibleSecrets) {
         GuessFeedback possibleFeedBack = analyzePossibleSecret(possibleSecrect, currentGuess);
         if (possibleFeedBack.bulls > maxHits) {
           maxHits = possibleFeedBack.bulls;
@@ -91,11 +78,11 @@ class AI {
     ).toList();
 
     Pair<String, int> selectedGuess = filteredList.firstWhere(
-      (element) => _possibleSecrets.contains(element.first),
+      (element) => state.possibleSecrets.contains(element.first),
       orElse: () => guessStats.first
     );
     
-    _unusedGuesses.remove(selectedGuess.first);
+    state.unusedGuesses.remove(selectedGuess.first);
     return selectedGuess.first;
   }
 
@@ -115,20 +102,20 @@ class AI {
     return GuessFeedback(bulls, cows);
   }
 
-  static GuessFeedback analyzeAIGuess(String guess) {
+  static GuessFeedback analyzeAIGuess(String guess, List<int> secret) {
     List<int> guessTurn = _convertToIntList(guess);    
-    GameTurn result = analyzeTurn(guessTurn);
+    GameTurn result = analyzeTurn(guessTurn, secret);
     return GuessFeedback(result.bulls, result.cows);
   }
 
-  static GameTurn analyzeTurn(List<int> values) {
+  static GameTurn analyzeTurn(List<int> values, List<int> secret) {
     int cows = 0;
     int bulls = 0;
 
     for(int i = 0; i < GamePlayConsts.DIGITS_COUNT; i++) {
-      if (values[i] == _secret[i]) {
+      if (values[i] == secret[i]) {
         bulls += 1;
-      } else if (_secret.contains(values[i])) {
+      } else if (secret.contains(values[i])) {
         cows += 1;
       }
     }

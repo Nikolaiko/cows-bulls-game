@@ -23,8 +23,8 @@ class PveUIWidget extends StatelessWidget {
       switch (store.gameWinner.value) {
         case GameSide.ai: {
           widgets.add(GameAlertDialog(
-            () => Navigator.of(context).pop(), 
-            () => store.resetGame()
+            () { Navigator.of(contextObserver, rootNavigator: true).popUntil((route) => route.isFirst); print("EXIT"); },
+            () { store.resetGame(); print("Reset!!!"); }
           ));
           break;
         }

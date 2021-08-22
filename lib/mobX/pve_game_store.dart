@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:cows_bulls_game/ai/AI.dart';
+import 'package:cows_bulls_game/model/ai/ai_parameters_state.dart';
 import 'package:cows_bulls_game/model/ai/guess_feedback.dart';
 import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
 import 'package:cows_bulls_game/model/game_side_enum.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/model/user_input_cell_data.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
-import 'package:cows_bulls_game/services/abstract/blind_guess_analyzer.dart';
 import 'package:cows_bulls_game/services/abstract/random_generator.dart';
-import 'package:cows_bulls_game/services/abstract/turn_analyzer.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
@@ -33,11 +32,15 @@ abstract class PveGameStore with Store {
     this._randomGenerator    
   ) {    
     _computerSecret = _randomGenerator.generateSequnce();
-    AI.initAllCombinations();
-    AI.prepareForMatch(_computerSecret);    
+
+    _aiParametersState.secret = _computerSecret;
+    _aiParametersState.possibleSecrets = List.from(AI.allCombinations);
+    _aiParametersState.unusedGuesses = List.from(AI.allCombinations);
+    _aiParametersState.unusedGuesses.shuffle();
   }
 
   List<int> _computerSecret = [];
+  AIParametersState _aiParametersState = AIParametersState();
 
   Observable<bool> computerThinking = Observable(false);
   Observable<GameSide> gameWinner = Observable(GameSide.none);  
@@ -74,7 +77,7 @@ abstract class PveGameStore with Store {
       stringGuess = "$stringGuess${element.value}";
     });
 
-    GameTurn currentTurn = AI.analyzeTurn(intValues);    
+    GameTurn currentTurn = AI.analyzeTurn(intValues, _computerSecret);    
     userTurnHistory.add(currentTurn);
 
     List<UserInputCellData> newData = currentUserInput.map((element) {
@@ -96,14 +99,14 @@ abstract class PveGameStore with Store {
 
     if (gameWinner.value == GameSide.none) {                    
       computerThinking.value = true;
-      String guess = await compute(AI.makeTurn, "Turn");      
-      _aiMakeTurn(guess);
+      _aiParametersState = await compute(AI.makeTurn, _aiParametersState);      
+      _aiMakeTurn(_aiParametersState.lastTurn);
     }
   }
 
   @action
   void _aiMakeTurn(String aiGuess) {    
-    GuessFeedback aiTurnFeedback = AI.analyzeAIGuess(aiGuess);
+    GuessFeedback aiTurnFeedback = AI.analyzeAIGuess(aiGuess, _computerSecret);
     GameTurn aiTurn = GameTurn(
       _convertToIntList(aiGuess), 
       aiTurnFeedback.cows, 
@@ -163,7 +166,35 @@ abstract class PveGameStore with Store {
 
   @action
   void resetGame() {
-    
+    aiTurnHistory.clear();
+    userTurnHistory.clear();
+    markedDigits.clear();
+
+    currentUserInputIndex.value = 0;
+    inputMode.value = UserInputModeEnum.usualInput;
+
+    digitButtonsState.clear();
+    digitButtonsState.addAll(
+      [DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual, DigitButtonTypeEnum.usual,
+      DigitButtonTypeEnum.usual]
+    );
+
+    currentUserInput.clear();
+    currentUserInput.addAll(
+      [UserInputCellData(" ", DigitButtonTypeEnum.usual), UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual),
+      UserInputCellData(" ", DigitButtonTypeEnum.usual)]
+    );
+
+    _computerSecret = _randomGenerator.generateSequnce();
+    _aiParametersState.secret = _computerSecret;
+    _aiParametersState.possibleSecrets = List.from(AI.allCombinations);
+    _aiParametersState.unusedGuesses = List.from(AI.allCombinations);
+    _aiParametersState.unusedGuesses.shuffle();
+
+    gameWinner.value = GameSide.none;
   }
 
   bool isDigitLocked(int digit) {

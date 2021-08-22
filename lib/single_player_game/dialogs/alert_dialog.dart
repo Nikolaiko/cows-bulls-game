@@ -49,11 +49,11 @@ class GameAlertDialog extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children:[
                               GestureDetector(
-                                onTap: () => _noOnPressed,
+                                onTap: () => _noOnPressed(),
                                 child: DialogGrayButton("Выход")
                               ),                              
                               GestureDetector(
-                                onTap: () => _yesOnPressed,
+                                onTap: () => _yesOnPressed(),
                                 child: DialogRedButton("Еще раз")
                               )
                             ]
