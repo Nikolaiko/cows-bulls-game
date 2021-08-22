@@ -1,6 +1,6 @@
-import 'package:cows_bulls_game/instructions_screen/const/instructions_consts.dart';
-import 'package:cows_bulls_game/instructions_screen/const/instructions_styles.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
+import 'package:cows_bulls_game/ui/instructions_screen/const/instructions_consts.dart';
+import 'package:cows_bulls_game/ui/instructions_screen/const/instructions_styles.dart';
 import 'package:flutter/material.dart';
 
 class CloseInstructionsButton extends StatelessWidget {

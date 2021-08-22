@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cows_bulls_game/consts/app_consts.dart';
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
+import 'package:cows_bulls_game/model/game_side_enum.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:cows_bulls_game/ui/common/turn_history_widgets/turn_record_row.dart';
@@ -26,7 +27,7 @@ class AITurnHistoryWidget extends StatelessWidget {
             _controller.jumpTo(_controller.position.maxScrollExtent);
           });
 
-          Widget historyList = _buildList(store.aiTurnHistory, dimensions);
+          Widget historyList = _buildList(store, dimensions);
           Widget progressBar = _buildProgressLoader(dimensions);
 
           return store.computerThinking.value
@@ -37,21 +38,29 @@ class AITurnHistoryWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildList(List<GameTurn> turns, ScreenDimensions dimensions) {
+  Widget _buildList(PveGameStore store, ScreenDimensions dimensions) {
     return ListView.builder(  
       controller: _controller,                  
-      itemCount: turns.length + 1,
+      itemCount: store.aiTurnHistory.length + 1,
       itemBuilder: (context, i) {
         return i == 0
           ? _buildListTitle(dimensions)
-          : _buildRow(turns[i - 1], i - 1);
+          : _buildRow(
+            store.aiTurnHistory[i - 1], 
+            i - 1,
+            store.gameWinner.value == GameSide.none
+          );
       }
     );
   }
 
-  Widget _buildRow(GameTurn turn, int index) {
+  Widget _buildRow(GameTurn turn, int index, bool hidden) {
     String historyText = "";
-    turn.turnValues.forEach((element) { historyText += "*"; });
+    turn.turnValues.forEach((element) { 
+      historyText += hidden 
+        ? "*"
+        : element.toString(); 
+    });
     return TurnRecordWidget(index, historyText, turn.cows, turn.bulls);
   }
 

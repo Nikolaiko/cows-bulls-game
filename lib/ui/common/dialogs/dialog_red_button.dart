@@ -1,17 +1,17 @@
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
-import 'package:cows_bulls_game/single_player_game/consts/single_game_styles.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/consts/dialog_game_styles.dart';
 import 'package:flutter/material.dart';
 
-class DialogGrayButton extends StatelessWidget {
+class DialogRedButton extends StatelessWidget {
   final String _buttonText;
 
-  DialogGrayButton(this._buttonText);
+  DialogRedButton(this._buttonText);
 
   @override
   Widget build(BuildContext context) {
     ScreenDimensions dimensions = ScreenDimensions(context);
     return Container(
-      decoration: dialogGrayButtonDecoration,
+      decoration: dialogRedButtonDecoration,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(

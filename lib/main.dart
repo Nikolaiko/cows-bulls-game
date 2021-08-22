@@ -1,7 +1,7 @@
 import 'package:cows_bulls_game/ai/AI.dart';
 import 'package:cows_bulls_game/consts/app_colors.dart';
 import 'package:cows_bulls_game/consts/app_consts.dart';
-import 'package:cows_bulls_game/main_screen/main_screen_widget.dart';
+import 'package:cows_bulls_game/ui/main_screen/main_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 

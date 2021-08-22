@@ -1,5 +1,5 @@
 import 'package:cows_bulls_game/consts/app_consts.dart';
-import 'package:cows_bulls_game/single_player_game/consts/single_game_screen_colors.dart';
+import 'package:cows_bulls_game/ui/common/dialogs/consts/dialog_screen_colors.dart';
 import 'package:cows_bulls_game/ui/common/keyboard/consts/keyboard_consts.dart';
 import 'package:flutter/material.dart';
 

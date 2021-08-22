@@ -1,4 +1,3 @@
-import 'package:cows_bulls_game/main_screen/consts/main_screen_consts.dart';
 import 'package:cows_bulls_game/model/screen_dimensions.dart';
 import 'package:flutter/material.dart';
 
