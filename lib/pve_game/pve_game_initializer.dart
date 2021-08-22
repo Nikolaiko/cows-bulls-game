@@ -14,15 +14,10 @@ class PveGameInitializer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TurnAnalyzer _turnAnalyzer = GameTurnAnalyzer();
-    BlindGuessAnalyzer _blindAnalyzer = AIGuessAnalyzer(_turnAnalyzer);
-
     return Provider<PveGameStore>(      
       create: (builderContext) {
         return PveGameStore.create(
-          RandomSequnceGenerator(),
-          _blindAnalyzer,
-          AI(_blindAnalyzer)
+          RandomSequnceGenerator()
         );
       },
       dispose: (_, value) => value.dispose(),

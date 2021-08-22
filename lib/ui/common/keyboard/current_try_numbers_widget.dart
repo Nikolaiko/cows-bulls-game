@@ -5,6 +5,7 @@ import 'package:cows_bulls_game/model/user_input_cell_data.dart';
 import 'package:cows_bulls_game/ui/common/keyboard/consts/keyboard_consts.dart';
 import 'package:cows_bulls_game/ui/common/keyboard/user_guess_widget/lockable_digit_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class CurrentTryNumbersWidget extends StatelessWidget {
   final List<UserInputCellData> _currentTryValues;
@@ -12,15 +13,24 @@ class CurrentTryNumbersWidget extends StatelessWidget {
   final InputDigitFunction _toggleLockState;
   final InputDigitFunction _selectDigitCell;
 
-  CurrentTryNumbersWidget(this._currentTryValues, this._selectedIndex,
-      this._toggleLockState, this._selectDigitCell);
+  CurrentTryNumbersWidget(
+    this._currentTryValues, 
+    this._selectedIndex,
+    this._toggleLockState, 
+    this._selectDigitCell
+  );
 
   @override
   Widget build(BuildContext context) {
     var dimensions = ScreenDimensions(context);
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _buildRowElements(dimensions));
+    return Observer(
+      builder: (context) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _buildRowElements(dimensions)
+        );
+      }
+    );
   }
 
   List<Widget> _buildRowElements(ScreenDimensions dimensions) {
@@ -37,7 +47,9 @@ class CurrentTryNumbersWidget extends StatelessWidget {
               () => _toggleLockState(i),
               (_currentTryValues[i].type == DigitButtonTypeEnum.usual)
                   ? () => _selectDigitCell(i)
-                  : null)));
+                  : null
+          )
+      ));
     }
     return widgets;
   }

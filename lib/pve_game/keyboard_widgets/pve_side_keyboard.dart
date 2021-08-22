@@ -11,7 +11,7 @@ class PveSideKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     var store = Provider.of<PveGameStore>(context, listen: false);
     return Observer(builder: (BuildContext context) {
-      return KeyboardSideWidget(store.isInputValid, store.makeTurn,
+      return KeyboardSideWidget(store.canMakeTurn, store.userMakeTurn,
           store.backspace, store.switchInputMode, store.inputMode.value);
     });
   }

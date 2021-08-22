@@ -1,6 +1,8 @@
 import 'package:cows_bulls_game/mobX/pve_game_store.dart';
+import 'package:cows_bulls_game/model/game_side_enum.dart';
 import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_main_keyboard.dart';
 import 'package:cows_bulls_game/pve_game/keyboard_widgets/pve_side_keyboard.dart';
+import 'package:cows_bulls_game/pve_game/turns_history_widgets/ai_turns_history_widget.dart';
 import 'package:cows_bulls_game/pve_game/turns_history_widgets/user_turn_history_widget.dart';
 import 'package:cows_bulls_game/single_player_game/dialogs/alert_dialog.dart';
 import 'package:cows_bulls_game/ui/common/keyboard/consts/keyboard_style_consts.dart';
@@ -18,10 +20,25 @@ class PveUIWidget extends StatelessWidget {
     return Expanded(child: Observer(builder: (contextObserver) {
       List<Widget> widgets = List.empty(growable: true);
       widgets.add(_buildMainGameScreen());
-      if (store.gameCompleted.value) {
-        widgets.add(GameAlertDialog(
-            () => Navigator.of(context).pop(), () => store.resetGame()));
-      }
+      switch (store.gameWinner.value) {
+        case GameSide.ai: {
+          widgets.add(GameAlertDialog(
+            () => Navigator.of(context).pop(), 
+            () => store.resetGame()
+          ));
+          break;
+        }
+        case GameSide.user: {
+          widgets.add(GameAlertDialog(
+            () => Navigator.of(context).pop(), 
+            () => store.resetGame()
+          ));
+          break;
+        }
+        case GameSide.none: {
+          print("Game is On");
+        }
+      }      
       return Stack(children: widgets);
     }));
   }
@@ -31,7 +48,10 @@ class PveUIWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(flex: 1, child: Container(color: Colors.black)),
+        Expanded(
+          flex: 1, 
+          child: AITurnHistoryWidget()
+        ),
         Expanded(
           flex: 1, 
           child: UserTurnsHistoryWidget()

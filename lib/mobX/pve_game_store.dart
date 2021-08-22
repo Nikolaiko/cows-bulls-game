@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cows_bulls_game/ai/AI.dart';
 import 'package:cows_bulls_game/model/ai/guess_feedback.dart';
 import 'package:cows_bulls_game/model/digit_button_type_enum.dart';
+import 'package:cows_bulls_game/model/game_side_enum.dart';
 import 'package:cows_bulls_game/model/game_turn.dart';
 import 'package:cows_bulls_game/model/user_input_cell_data.dart';
 import 'package:cows_bulls_game/model/user_input_mode_enum.dart';
@@ -8,41 +11,36 @@ import 'package:cows_bulls_game/services/abstract/blind_guess_analyzer.dart';
 import 'package:cows_bulls_game/services/abstract/random_generator.dart';
 import 'package:cows_bulls_game/services/abstract/turn_analyzer.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 
 part 'pve_game_store.g.dart';
 
 class _PveGameStore extends PveGameStore with _$_PveGameStore {
   _PveGameStore(
-    RandomGenerator generator, 
-    BlindGuessAnalyzer analyzer,
-    AI ai
-  ) : super(generator, analyzer, ai);
+    RandomGenerator generator    
+  ) : super(generator);
 }
 
 abstract class PveGameStore with Store {
   factory PveGameStore.create(
-    RandomGenerator generator,
-    BlindGuessAnalyzer analyzer,
-    AI ai
-  ) => _PveGameStore(generator, analyzer, ai);
+    RandomGenerator generator
+  ) => _PveGameStore(generator);
 
   final RandomGenerator _randomGenerator;
-  final BlindGuessAnalyzer _turnAnalyzer;
-  final AI _ai;
 
   PveGameStore(
-    this._randomGenerator,
-    this._turnAnalyzer,
-    this._ai
-  ) {
+    this._randomGenerator    
+  ) {    
     _computerSecret = _randomGenerator.generateSequnce();
-    _turnAnalyzer.setSecret(_computerSecret);
+    AI.initAllCombinations();
+    AI.prepareForMatch(_computerSecret);    
   }
 
   List<int> _computerSecret = [];
 
-  Observable<bool> gameCompleted = Observable(false);
+  Observable<bool> computerThinking = Observable(false);
+  Observable<GameSide> gameWinner = Observable(GameSide.none);  
   Observable<int> currentUserInputIndex = Observable(0);
   Observable<UserInputModeEnum> inputMode = Observable(UserInputModeEnum.usualInput);
   
@@ -66,7 +64,7 @@ abstract class PveGameStore with Store {
   ObservableList<int> markedDigits = ObservableList();
   
   @action
-  void makeTurn() {    
+  Future<void> userMakeTurn() async {
     var intValues = currentUserInput.map(
       (element) => int.parse(element.value)
     ).toList();
@@ -76,8 +74,7 @@ abstract class PveGameStore with Store {
       stringGuess = "$stringGuess${element.value}";
     });
 
-    GuessFeedback feedback = _turnAnalyzer.analyzeGuess(stringGuess);
-    GameTurn currentTurn = GameTurn(intValues, feedback.cows, feedback.bulls);
+    GameTurn currentTurn = AI.analyzeTurn(intValues);    
     userTurnHistory.add(currentTurn);
 
     List<UserInputCellData> newData = currentUserInput.map((element) {
@@ -89,10 +86,35 @@ abstract class PveGameStore with Store {
     }).toList();
 
 
-    gameCompleted.value = currentTurn.bulls == currentUserInput.length;
+    gameWinner.value = currentTurn.bulls == currentUserInput.length
+      ? GameSide.user
+      : GameSide.none;
+
     currentUserInput.setAll(0, newData);
     currentUserInputIndex.value = currentUserInput.length - 1;
-    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);   
+    currentUserInputIndex.value = _getNextNotLockedCell(currentUserInputIndex.value);
+
+    if (gameWinner.value == GameSide.none) {                    
+      computerThinking.value = true;
+      String guess = await compute(AI.makeTurn, "Turn");      
+      _aiMakeTurn(guess);
+    }
+  }
+
+  @action
+  void _aiMakeTurn(String aiGuess) {    
+    GuessFeedback aiTurnFeedback = AI.analyzeAIGuess(aiGuess);
+    GameTurn aiTurn = GameTurn(
+      _convertToIntList(aiGuess), 
+      aiTurnFeedback.cows, 
+      aiTurnFeedback.bulls
+    );
+    aiTurnHistory.add(aiTurn);
+    gameWinner.value = aiTurn.bulls == currentUserInput.length
+      ? GameSide.ai
+      : GameSide.none;
+
+    computerThinking.value = false;
   }
 
   @action
@@ -155,11 +177,15 @@ abstract class PveGameStore with Store {
     return markedDigits.contains(digit);
   }
 
-  bool isInputValid() {
+  bool _isInputValid() {
     UserInputCellData? element = currentUserInput.firstWhereOrNull(
       (element) => element.value == " "      
     );    
     return element == null;
+  }
+
+  bool canMakeTurn() {
+    return _isInputValid() && !computerThinking.value;
   }
 
   void dispose() {}
@@ -232,5 +258,10 @@ abstract class PveGameStore with Store {
     }
 
     return index;
+  }
+
+  List<int> _convertToIntList(String combination) {
+    List<String> characters = combination.split("");
+    return characters.map((e) => int.parse(e)).toList();    
   }
 }

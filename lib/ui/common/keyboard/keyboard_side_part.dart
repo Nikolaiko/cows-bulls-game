@@ -37,16 +37,15 @@ class KeyboardSideWidget extends StatelessWidget {
         child: IconSideButtonWidget(Icons.backspace_outlined, dimens),
       ),
       SizedBox(height: dimens.width * enterDigitRowSpaceCoeff),
-      Observer(builder: (observerContext) {
-        return GestureDetector(
-          onTap: _switchInputType,
-          child: IconSideButtonWidget(
-              _inputType == UserInputModeEnum.usualInput
-                  ? Icons.edit_outlined
-                  : Icons.edit_sharp,
-              dimens),
-        );
-      }),
+      GestureDetector(
+        onTap: _switchInputType,
+        child: IconSideButtonWidget(
+          _inputType == UserInputModeEnum.usualInput
+            ? Icons.edit_outlined
+            : Icons.edit_sharp,
+          dimens
+        ),
+      ),
       SizedBox(height: dimens.width * 0.01)
     ]);
   }

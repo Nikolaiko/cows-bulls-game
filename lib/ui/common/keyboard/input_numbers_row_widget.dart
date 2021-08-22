@@ -22,8 +22,9 @@ class InputNumbersRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var dimensions = ScreenDimensions(context);
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _buildRowElements(dimensions));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _buildRowElements(dimensions)
+    );
   }
 
   List<Widget> _buildRowElements(ScreenDimensions dimensions) {
