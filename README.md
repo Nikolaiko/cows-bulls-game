@@ -1,7 +1,5 @@
-# AI Cows and Bulls
-[![Codemagic build status](https://api.codemagic.io/apps/61179baf86db0d3918b1dcc6/61179baf86db0d3918b1dcc5/status_badge.svg)](https://codemagic.io/apps/61179baf86db0d3918b1dcc6/61179baf86db0d3918b1dcc5/latest_build)
-Test project for checking statement : one code 4 platfroms. Working with MobX and SVG also.
 
+Test project for checking statement : one code 4 platfroms. Working with MobX and SVG also.
 Пробный проект для проверки подхода - один код - 4 платформы.
 Помимо этого, потрогать MobX и SVG.
 
